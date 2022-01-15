@@ -10,8 +10,10 @@ import {
   Grid,
   FormField,
   Select,
+  Footer,
+  Text,
 } from 'grommet';
-import { Notification, FormClose, View } from 'grommet-icons';
+import { Notification, FormClose, View, Github } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 import React, { useState } from 'react';
 
@@ -33,13 +35,14 @@ function App() {
     <Grommet full theme={grommet}>
       <Grid
         fill
-        rows={['xxsmall', 'full']}
-        columns={['medium', 'full']}
-        gap='small'
+        rows={['xxsmall', 'full', 'xxsmall']}
+        columns={['medium', 'full', 'full']}
+        gap='xxsmall'
         areas={[
           { name: 'header', start: [0, 0], end: [1, 0] },
           { name: 'nav', start: [0, 1], end: [0, 1] },
           { name: 'main', start: [1, 1], end: [1, 1] },
+          { name: 'footer', start: [0, 2], end: [1, 2] },
         ]}
       >
         <Box gridArea='header' background='brand' />
@@ -57,6 +60,9 @@ function App() {
           </Box>
         </Box>
         <Box gridArea='main' background='light-3' />
+        <Footer gridArea='footer' background='light-5' pad='small'>
+          <Github size='medium' />
+        </Footer>
       </Grid>
     </Grommet>
   );
