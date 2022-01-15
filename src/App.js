@@ -8,8 +8,10 @@ import {
   Main,
   Paragraph,
   Grid,
+  FormField,
+  Select,
 } from 'grommet';
-import { Notification, FormClose } from 'grommet-icons';
+import { Notification, FormClose, View } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 import React, { useState } from 'react';
 
@@ -41,8 +43,20 @@ function App() {
         ]}
       >
         <Box gridArea='header' background='brand' />
-        <Box gridArea='nav' background='light-5' />
-        <Box gridArea='main' background='light-2' />
+        <Box gridArea='nav' background='light-1'>
+          <Box pad='medium' direction='row'>
+            <FormField label='Lecturer' htmlFor='lecturer'>
+              <Select
+                size='small'
+                id='lecturer'
+                placeholder='Lecturer'
+                options={['One', 'Two']}
+              />
+            </FormField>
+            <Button icon={<View size='medium' />} margin={{ top: 'medium' }} />
+          </Box>
+        </Box>
+        <Box gridArea='main' background='light-3' />
       </Grid>
     </Grommet>
   );
