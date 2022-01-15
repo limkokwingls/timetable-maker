@@ -30,12 +30,13 @@ const theme = {
   },
 };
 
+// the prefix name of the Create option entry
+const prefix = 'Create';
+
 const defaultOptions: string[] = [];
 for (let i = 1; i <= 5; i += 1) {
   defaultOptions.push(`option ${i}`);
 }
-
-const prefix = 'Create';
 
 const updateCreateOption = (text: string) => {
   const len = defaultOptions.length;
@@ -44,6 +45,18 @@ const updateCreateOption = (text: string) => {
     defaultOptions.pop();
   }
   defaultOptions.push(`${prefix} '${text}'`);
+};
+
+// improving Search support of special characters
+const getRegExp = (text: string) => {
+  // The line below escapes regular expression special characters:
+  // [ \ ^ $ . | ? * + ( )
+  const escapedText = text.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
+
+  // Create the regular expression with modified value which
+  // handles escaping special characters. Without escaping special
+  // characters, errors will appear in the console
+  return new RegExp(escapedText, 'i');
 };
 
 function App() {
@@ -70,10 +83,27 @@ function App() {
           <Box pad='medium' direction='row'>
             <FormField label='Lecturer' htmlFor='lecturer'>
               <Select
-                size='small'
-                id='lecturer'
-                placeholder='Lecturer'
-                options={['One', 'Two']}
+                open
+                size='medium'
+                placeholder='Select'
+                value={value}
+                options={options}
+                onChange={({ option }) => {
+                  if (option.includes(prefix)) {
+                    defaultOptions.pop(); // remove Create option
+                    defaultOptions.push(searchValue);
+                    setValue(searchValue);
+                  } else {
+                    setValue(option);
+                  }
+                }}
+                onClose={() => setOptions(defaultOptions)}
+                onSearch={(text: string) => {
+                  updateCreateOption(text);
+                  const exp = getRegExp(text);
+                  setOptions(defaultOptions.filter((o) => exp.test(o)));
+                  setSearchValue(text);
+                }}
               />
             </FormField>
             <Button icon={<View size='medium' />} margin={{ top: 'medium' }} />
