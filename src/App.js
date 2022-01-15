@@ -1,24 +1,50 @@
+import {
+  Box,
+  Button,
+  Layer,
+  Collapsible,
+  Heading,
+  Grommet,
+  Main,
+  Paragraph,
+  Grid,
+} from 'grommet';
+import { Notification, FormClose } from 'grommet-icons';
+import { grommet } from 'grommet/themes';
+import React, { useState } from 'react';
+
+const theme = {
+  global: {
+    colors: {
+      brand: '#228BE6',
+    },
+    font: {
+      family: 'Roboto',
+      size: '18px',
+      height: '20px',
+    },
+  },
+};
+
 function App() {
   return (
-    <>
-      <section>
-        <form>
-          <p>
-            <label htmlFor='lecturer'>Lecturer</label>
-            <input type='text' id='lecturer' />
-          </p>
-          <p>
-            <label htmlFor='course'>Course</label>
-            <input type='text' id='course' />
-          </p>
-          <p>
-            <label htmlFor='students'>Students</label>
-            <input type='text' id='students' />
-          </p>
-        </form>
-      </section>
-      <section></section>
-    </>
+    <Grommet full theme={grommet}>
+      <Grid
+        fill
+        rows={['xxsmall', 'full']}
+        columns={['medium', 'full']}
+        gap='small'
+        areas={[
+          { name: 'header', start: [0, 0], end: [1, 0] },
+          { name: 'nav', start: [0, 1], end: [0, 1] },
+          { name: 'main', start: [1, 1], end: [1, 1] },
+        ]}
+      >
+        <Box gridArea='header' background='brand' />
+        <Box gridArea='nav' background='light-5' />
+        <Box gridArea='main' background='light-2' />
+      </Grid>
+    </Grommet>
   );
 }
 
