@@ -30,7 +30,27 @@ const theme = {
   },
 };
 
+const defaultOptions: string[] = [];
+for (let i = 1; i <= 5; i += 1) {
+  defaultOptions.push(`option ${i}`);
+}
+
+const prefix = 'Create';
+
+const updateCreateOption = (text: string) => {
+  const len = defaultOptions.length;
+  if (defaultOptions[len - 1].includes(prefix)) {
+    // remove Create option before adding an updated one
+    defaultOptions.pop();
+  }
+  defaultOptions.push(`${prefix} '${text}'`);
+};
+
 function App() {
+  const [options, setOptions] = useState(defaultOptions);
+  const [value, setValue] = useState('');
+  const [searchValue, setSearchValue] = useState('');
+
   return (
     <Grommet full theme={grommet}>
       <Grid
