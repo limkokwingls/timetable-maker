@@ -1,35 +1,8 @@
-import {
-  Box,
-  Button,
-  Layer,
-  Collapsible,
-  Heading,
-  Grommet,
-  Main,
-  Paragraph,
-  Grid,
-  FormField,
-  Select,
-  Footer,
-  Text,
-} from 'grommet';
-import { Notification, FormClose, View, Github } from 'grommet-icons';
+import { Box, Button, Grommet, Grid, FormField, Footer } from 'grommet';
+import { View, Github } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
-import React, { useState } from 'react';
-import ComboBox from './components/ComboBox';
-
-const theme = {
-  global: {
-    colors: {
-      brand: '#228BE6',
-    },
-    font: {
-      family: 'Roboto',
-      size: '18px',
-      height: '20px',
-    },
-  },
-};
+import Table from './components/table/Table';
+import ComboBox from './components/ui/ComboBox';
 
 const lecturers: string[] = ['Liphoto', 'Molise', 'Molemo'];
 const classes: string[] = ['BSITY1S1', 'BSSMY2S3', 'INTY1S1'];
@@ -55,7 +28,7 @@ function App() {
         ]}
       >
         <Box gridArea='header' background='brand' />
-        <Box gridArea='nav' background='light-1'>
+        <Box gridArea='nav' background='light-2'>
           <Box pad={comboBoxPad} direction='row'>
             <FormField label='Lecturer' htmlFor='lecturer'>
               <ComboBox options={lecturers} />
@@ -74,8 +47,11 @@ function App() {
             </FormField>
             <Button icon={<View size='medium' />} margin={{ top: 'medium' }} />
           </Box>
+          <Box pad='large' direction='row'></Box>
         </Box>
-        <Box gridArea='main' background='light-3' />
+        <Box gridArea='main' background='light-1'>
+          <Table />
+        </Box>
         <Footer gridArea='footer' background='light-5' pad='small'>
           <Github size='medium' />
         </Footer>

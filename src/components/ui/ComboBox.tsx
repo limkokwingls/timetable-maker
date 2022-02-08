@@ -1,19 +1,4 @@
-import {
-  Box,
-  Button,
-  Layer,
-  Collapsible,
-  Heading,
-  Grommet,
-  Main,
-  Paragraph,
-  Grid,
-  FormField,
-  Select,
-  Footer,
-  Text,
-} from 'grommet';
-import { Notification, FormClose, View, Github } from 'grommet-icons';
+import { Select } from 'grommet';
 import { useState } from 'react';
 
 // the prefix name of the Create option entry
