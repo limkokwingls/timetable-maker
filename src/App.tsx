@@ -31,7 +31,15 @@ const theme = {
   },
 };
 
+const lecturers: string[] = ['Liphoto', 'Molise', 'Molemo'];
+const classes: string[] = ['BSITY1S1', 'BSSMY2S3', 'INTY1S1'];
+const venues: string[] = ['MM1', 'MM2', 'MM3', 'MM4', 'Room 6'];
+
 function App() {
+  const comboBoxPad = {
+    horizontal: 'medium',
+    vertical: 'none',
+  };
   return (
     <Grommet full theme={grommet}>
       <Grid
@@ -48,9 +56,21 @@ function App() {
       >
         <Box gridArea='header' background='brand' />
         <Box gridArea='nav' background='light-1'>
-          <Box pad='medium' direction='row'>
+          <Box pad={comboBoxPad} direction='row'>
             <FormField label='Lecturer' htmlFor='lecturer'>
-              <ComboBox />
+              <ComboBox options={lecturers} />
+            </FormField>
+            <Button icon={<View size='medium' />} margin={{ top: 'medium' }} />
+          </Box>
+          <Box pad={comboBoxPad} direction='row'>
+            <FormField label='Class' htmlFor='classes'>
+              <ComboBox options={classes} id='classes' />
+            </FormField>
+            <Button icon={<View size='medium' />} margin={{ top: 'medium' }} />
+          </Box>
+          <Box pad={comboBoxPad} direction='row'>
+            <FormField label='Venue' htmlFor='venues'>
+              <ComboBox options={venues} id='venues' />
             </FormField>
             <Button icon={<View size='medium' />} margin={{ top: 'medium' }} />
           </Box>
