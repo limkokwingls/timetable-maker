@@ -1,5 +1,6 @@
 package com.breakoutms.timetable.pref;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.breakoutms.timetable.db.DAO;
@@ -7,7 +8,9 @@ import com.breakoutms.timetable.db.DAO;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import org.controlsfx.control.SearchableComboBox;
 
 public abstract class ItemsListController<T> {
 
@@ -34,13 +37,12 @@ public abstract class ItemsListController<T> {
 
 	@FXML
     void add(ActionEvent event) {
-    	var list = createBean();
-    	if(list == null || list.isEmpty()) return;
-    	for (T value : list) {
-        	if(!listView.getItems().contains(value)) {
-            	listView.getItems().add(value);
-            	dao.save(value);
-        	}
+    	var bean = createBean();
+    	if(bean == null) return;
+		if(!listView.getItems().contains(bean)) {
+			listView.getItems().add(bean);
+			dao.save(bean);
+			comboBox().getItems().add(bean);
 		}
     	clear();
     }
@@ -51,9 +53,12 @@ public abstract class ItemsListController<T> {
 		var item = listView.getSelectionModel().getSelectedItem();
 		listView.getItems().remove(item);
 		dao.delete(item);
+		comboBox().getItems().remove(item);
     }
 	
 	protected abstract void clear();
 	
-    protected abstract List<T> createBean();
+    protected abstract T createBean();
+
+	protected abstract ComboBox<T> comboBox();
 }

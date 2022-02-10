@@ -4,7 +4,9 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import com.breakoutms.timetable.MainController;
 import com.breakoutms.timetable.model.beans.StudentClass;
+import javafx.scene.control.ComboBox;
 import org.apache.commons.lang3.StringUtils;
 
 import javafx.fxml.FXML;
@@ -36,11 +38,16 @@ public class StudentClassesController extends ItemsListController<StudentClass> 
 		name.setText("");
 	}
 
-	protected List<StudentClass> createBean() {
+	protected StudentClass createBean() {
 		String value = name.getText();
 		if(StringUtils.isBlank(value)) {
-			return Arrays.asList();
+			return null;
 		}
-		return Arrays.asList(new StudentClass(value));
+		return new StudentClass(value);
+	}
+
+	@Override
+	protected ComboBox<StudentClass> comboBox() {
+		return MainController.studentClassComboBox();
 	}
 }

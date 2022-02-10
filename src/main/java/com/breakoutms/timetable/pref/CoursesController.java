@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import com.breakoutms.timetable.MainController;
 import com.breakoutms.timetable.model.beans.Course;
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
+import org.controlsfx.control.SearchableComboBox;
 
 @Getter
 public class CoursesController extends ItemsListController<Course> {
@@ -38,12 +40,17 @@ public class CoursesController extends ItemsListController<Course> {
 		code.setText("");
 	}
 	
-    protected List<Course> createBean() {
+    protected Course createBean() {
     	String nameValue = this.name.getText();
     	String codeValue = this.code.getText();
     	if(StringUtils.isBlank(nameValue) || StringUtils.isBlank(codeValue)) {
-    		return Arrays.asList();
+    		return null;
     	}
-		return Arrays.asList(new Course(nameValue, codeValue));
+		return new Course(nameValue, codeValue);
+	}
+
+	@Override
+	protected SearchableComboBox<Course> comboBox() {
+		return MainController.courseComboBox();
 	}
 }

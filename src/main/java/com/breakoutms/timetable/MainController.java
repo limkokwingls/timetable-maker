@@ -47,6 +47,8 @@ public class MainController {
 	@FXML private ComboBox<String> time;
 	@FXML private TextField searchFld;
 
+	private static MainController INSTANCE;
+
 	private final TableView<Slot> slotTableView = SlotTable.get();
 	private final DAO<Lecturer> lecturerDao = new DAO<>(Lecturer.class);
 	private final DAO<Course> courseDao = new DAO<>(Course.class);
@@ -62,6 +64,23 @@ public class MainController {
 
 	private Course currentCourse;
 	private StudentClass currentClass;
+
+	public MainController(){
+		INSTANCE = this;
+	}
+
+	public static SearchableComboBox<Lecturer> lecturesComboBox() {
+		return MainController.INSTANCE.lecturer;
+	}
+	public static SearchableComboBox<Course> courseComboBox() {
+		return MainController.INSTANCE.course;
+	}
+	public static SearchableComboBox<StudentClass> studentClassComboBox() {
+		return MainController.INSTANCE.studentClass;
+	}
+	public static ComboBox<Venue> venueComboBox() {
+		return MainController.INSTANCE.venue;
+	}
 
 	@FXML
 	void initialize() {
@@ -117,7 +136,7 @@ public class MainController {
 		Platform.runLater(()->timetableHolder.requestFocus());
 	}
 
-	private void populateInputComboBoxes(){
+	public void populateInputComboBoxes(){
 		lecturer.getItems().clear();
 		course.getItems().clear();
 		studentClass.getItems().clear();

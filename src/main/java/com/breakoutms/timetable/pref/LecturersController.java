@@ -4,7 +4,9 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import com.breakoutms.timetable.MainController;
 import com.breakoutms.timetable.model.beans.Lecturer;
+import javafx.event.ActionEvent;
 import org.apache.commons.lang3.StringUtils;
 
 import javafx.fxml.FXML;
@@ -12,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
+import org.controlsfx.control.SearchableComboBox;
 
 @Getter
 public class LecturersController extends ItemsListController<Lecturer> {
@@ -35,12 +38,17 @@ public class LecturersController extends ItemsListController<Lecturer> {
 	protected void clear() {
 		names.setText("");
 	}
-	
-    protected List<Lecturer> createBean() {
+
+	protected Lecturer createBean() {
     	String value = names.getText();
     	if(StringUtils.isBlank(value)) {
-    		return Arrays.asList();
+    		return null;
     	}
-		return Arrays.asList(new Lecturer(value));
+		return new Lecturer(value);
+	}
+
+	@Override
+	protected SearchableComboBox<Lecturer> comboBox() {
+		return MainController.lecturesComboBox();
 	}
 }

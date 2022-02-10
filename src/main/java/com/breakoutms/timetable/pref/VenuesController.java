@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.breakoutms.timetable.MainController;
 import com.breakoutms.timetable.model.beans.Venue;
 import org.apache.commons.lang3.StringUtils;
 
@@ -52,13 +53,18 @@ public class VenuesController extends ItemsListController<Venue> {
 		venueType.getSelectionModel().clearSelection();
 	}
 	
-    protected List<Venue> createBean() {
+    protected Venue createBean() {
     	String venueValue = venue.getText();
     	Venue.VenueType typeValue = venueType.getValue();
     	if(StringUtils.isBlank(venueValue) 
     			|| typeValue == null) {
-    		return Arrays.asList();
+    		return null;
     	}
-		return Arrays.asList(new Venue(venueValue, typeValue));
+		return new Venue(venueValue, typeValue);
+	}
+
+	@Override
+	protected ComboBox<Venue> comboBox() {
+		return MainController.venueComboBox();
 	}
 }
