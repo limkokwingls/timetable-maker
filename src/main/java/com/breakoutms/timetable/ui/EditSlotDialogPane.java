@@ -53,7 +53,7 @@ public class EditSlotDialogPane extends DialogPane {
     @FXML
     void initialize() {
         title.setText("Update for "+ slot.getLecturerName());
-        venueFilter.getItems().addAll(venueDAO.all());
+        venueFilter.getItems().addAll(venueDAO.facultyAll());
         classFld.setText(slot.getStudentClassName());
         courseFld.setText(slot.getCourse().getName());
         venueFld.setText(slot.getVenueName());

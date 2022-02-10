@@ -129,7 +129,7 @@ public class SlotManager {
 				.filter(it -> it.getTimeIndex() == timeIndex)
 				.map(AllocatedVenue::getVenue)
 				.toList();
-		List<Venue> allVenues = venueRepository.all();
+		List<Venue> allVenues = venueRepository.facultyAll();
 		return allVenues.stream()
 				.filter(it -> !exclude.contains(it))
 				.skip(random(0, allVenues.size()))
