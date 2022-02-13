@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import com.breakoutms.timetable.db.VenueDAO;
 import com.breakoutms.timetable.model.Properties;
 import com.breakoutms.timetable.model.beans.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import lombok.extern.log4j.Log4j2;
 
 import static com.breakoutms.timetable.model.beans.Venue.VenueType.*;
@@ -22,9 +25,15 @@ public class SlotManager {
 	private final StudentClassService studentClassService = new StudentClassService();
 	private final CourseService courseService = new CourseService();
 	private final VenueDAO venueRepository = new VenueDAO();
+	private boolean ignoreLecurerConflict;
 
 	public Slot allocate(Allocation al) {
-		Slot slot = createSlot(al);
+		return allocate(al, true);
+	}
+
+	public Slot allocate(Allocation al, boolean strictMode) {
+		System.out.println("strictMode = " + strictMode);
+		Slot slot = createSlot(al, strictMode);
 		slots.add(slot);
 		log.info("SlotGenerator.allocate(): "+ slot);
 		return slot;
@@ -41,12 +50,12 @@ public class SlotManager {
 		return false;
 	}
 
-	private Slot createSlot(Allocation al) {
+	private Slot createSlot(Allocation al, boolean strict) {
 		courseService.create(al.getCourse());
 		LecturerIndex lecturer = lecturerService.createIndex(al.getLecturer());
 		StudentClassIndex stdClass = studentClassService.createIndex(al.getStudentClass());
 
-		AllocatedVenue allocatedVenue = attemptMatchingIndexes(al, lecturer);
+		AllocatedVenue allocatedVenue = attemptMatchingIndexes(al, lecturer, strict);
 		for (int i = 0; i < RETRIES; i++) {
 			Venue venue = allocatedVenue.getVenue();
 			if(venue != null && al.getVenueType() == Venue.VenueType.ANY){
@@ -54,14 +63,20 @@ public class SlotManager {
 			}
 			if(!al.isStrictPreferredTime() &&
 					(venue == null || (venue.getVenueType() != al.getVenueType()))){
-				allocatedVenue = attemptMatchingIndexes(al, lecturer);
+				allocatedVenue = attemptMatchingIndexes(al, lecturer, strict);
 			}
 		}
 
 		Venue venue = allocatedVenue.getVenue();
 		if((venue == null ||
 				(al.getVenueType() != ANY && venue.getVenueType() != al.getVenueType()))){
-			throw new IllegalArgumentException("Unable to find a vacant slot for the selected venue or venue type");
+			if(ignoreLecurerConflict){
+				allocatedVenue.setTimeIndex(al.getTimeIndex());
+				allocatedVenue.setVenue(al.getVenue());
+			}
+			else {
+				throw new IllegalArgumentException("Unable to find a vacant slot for the selected venue or venue type");
+			}
 		}
 
 		lecturer.setTimeIndex(allocatedVenue.getTimeIndex());
@@ -70,15 +85,15 @@ public class SlotManager {
 		return new Slot(lecturer, stdClass, allocatedVenue, al.getCourse());
 	}
 
-	private AllocatedVenue attemptMatchingIndexes(Allocation al, LecturerIndex lecturer) {
-		int lectureTime = lecturerTimeIndex(lecturer, al.getTimeIndex());
-		int studentsTime = studentsTimeIndex(al.getStudentClass(), lectureTime);
+	private AllocatedVenue attemptMatchingIndexes(Allocation al, LecturerIndex lecturer, boolean strict) {
+		int lectureTime = lecturerTimeIndex(lecturer, al.getTimeIndex(), strict);
+		int studentsTime = studentsTimeIndex(al.getStudentClass(), lectureTime, strict);
 
 		for (int i = 0; i < RETRIES; i++) {
 			if(lectureTime == studentsTime) {
 				break;
 			}
-			lectureTime = lecturerTimeIndex(lecturer, al.getTimeIndex());
+			lectureTime = lecturerTimeIndex(lecturer, al.getTimeIndex(), strict);
 		}
 		if(lectureTime != studentsTime) {
 			throw new IllegalStateException("Unable to find slot matching both student and lecturer");
@@ -124,11 +139,7 @@ public class SlotManager {
 	}
 
 	private Venue randomVenue(Integer timeIndex) {
-		List<Venue> exclude = slots.stream()
-				.map(Slot::getAllocatedVenue)
-				.filter(it -> it.getTimeIndex() == timeIndex)
-				.map(AllocatedVenue::getVenue)
-				.toList();
+		List<Venue> exclude = occupied(timeIndex);
 		List<Venue> allVenues = venueRepository.facultyAll();
 		return allVenues.stream()
 				.filter(it -> !exclude.contains(it))
@@ -136,22 +147,51 @@ public class SlotManager {
 				.findAny().orElse(null);
 	}
 
-	private Integer lecturerTimeIndex(LecturerIndex lecturer, Integer preferredTime) {
-		var exclude = slots.stream()
+	private List<Venue> occupied(Integer timeIndex) {
+		return slots.stream()
+				.map(Slot::getAllocatedVenue)
+				.filter(it -> it.getTimeIndex() == timeIndex)
+				.map(AllocatedVenue::getVenue)
+				.toList();
+	}
+
+	private Integer lecturerTimeIndex(LecturerIndex lecturer, Integer preferredTime, boolean strict) {
+		Set<Integer> exclude = occupied(lecturer);
+		if(!strict && exclude.contains(preferredTime)){
+			var okayText = "Continue";
+			ButtonType okay = new ButtonType(okayText, ButtonBar.ButtonData.CANCEL_CLOSE);
+			ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.OK_DONE);
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+					"Lecturer is already occupied at selected time, do you want to continue",
+					okay, cancel);
+			var res = alert.showAndWait();
+			if(res.isPresent() && res.get().getText().equals(okayText)){
+				ignoreLecurerConflict = true;
+				return preferredTime;
+			}
+		}
+		return randomTimeIndex(exclude, preferredTime);
+	}
+
+	private Set<Integer> occupied(LecturerIndex lecturer) {
+		return slots.stream()
 				.map(Slot::getLecturerIndex)
 				.filter(it -> it.getName().equalsIgnoreCase(lecturer.getName()))
 				.map(LecturerIndex::getTimeIndex)
 				.collect(Collectors.toSet());
+	}
+
+	private Integer studentsTimeIndex(StudentClass studentClass, Integer preferredTime, boolean strict) {
+		Set<Integer> exclude = occupied(studentClass);
 		return randomTimeIndex(exclude, preferredTime);
 	}
 
-	private Integer studentsTimeIndex(StudentClass studentClass, Integer preferredTime) {
-		var exclude = slots.stream()
+	private Set<Integer> occupied(StudentClass studentClass) {
+		return slots.stream()
 				.filter(slot -> slot.getStudentClass().equals(studentClass))
 				.map(Slot::getStudentClassIndex)
 				.map(StudentClassIndex::getTimeIndex)
 				.collect(Collectors.toSet());
-		return randomTimeIndex(exclude, preferredTime);
 	}
 
 	private Integer randomTimeIndex(Set<Integer> exclude, Integer preferredTime) {

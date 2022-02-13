@@ -209,7 +209,8 @@ public class MainController {
 		try {
 			if(!SlotManager.contains(al)) {
 				addToLecturersFilter(lecturer.getValue());
-				Slot slot = slotManager.allocate(al);
+				boolean isStrict = venue.getValue() == null || day.getValue() == null || time.getValue() == null;
+				Slot slot = slotManager.allocate(al, isStrict);
 				currentClass = slot.getStudentClass();
 				currentCourse = slot.getCourse();
 				addSlotToPreviewPanel(slot);
