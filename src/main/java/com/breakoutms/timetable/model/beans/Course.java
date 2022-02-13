@@ -24,10 +24,11 @@ public class Course implements Serializable {
 	@Id @GeneratedValue
 	private Integer id;
 
-	@Column(unique = true)
 	@NotBlank
 	private String name;
 
+	@Column(unique = true)
+	@NotBlank
 	private String code;
 
 	public Course(String name, String code) {

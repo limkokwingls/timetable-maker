@@ -14,9 +14,10 @@ import org.controlsfx.control.SearchableComboBox;
 
 public abstract class ItemsListController<T> {
 
-    @FXML private ListView<T> listView;
+    @FXML
+	protected ListView<T> listView;
     
-    private final DAO<T> dao;
+    protected final DAO<T> dao;
     
 	public ItemsListController(Class<T> type) {
 		this.dao = new DAO<>(type);

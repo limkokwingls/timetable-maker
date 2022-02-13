@@ -97,6 +97,21 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
+                  <JFXButton contentDisplay="TOP" onAction="#preferences" text="Database">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <graphic>
+                        <ImageView pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/database_16.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
                   <JFXButton contentDisplay="TOP" onAction="#onExport" text="Export">
                      <font>
                         <Font size="10.0" />

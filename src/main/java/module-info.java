@@ -32,4 +32,6 @@ module com.breakoutms.timetable.desktop.timetabledesktop {
     requires poi;
     requires poi.ooxml;
     requires poi.ooxml.schemas;
+    requires org.apache.commons.collections4;
+    requires com.opencsv;
 }
