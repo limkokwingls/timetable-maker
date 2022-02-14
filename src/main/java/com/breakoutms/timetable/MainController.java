@@ -48,12 +48,27 @@ public class MainController {
 	@FXML private TextField searchFld;
 
 	private static MainController INSTANCE;
+	public static MainController getInstance() {
+		return INSTANCE;
+	}
 
 	private final TableView<Slot> slotTableView = SlotTable.get();
 	private final DAO<Lecturer> lecturerDao = new DAO<>(Lecturer.class);
 	private final DAO<Course> courseDao = new DAO<>(Course.class);
 	private final DAO<StudentClass> studentClassesDao = new DAO<>(StudentClass.class);
 	private final VenueDAO venueDAO = new VenueDAO();
+
+	public Map<String, TimetablePreviewPane> getLecturerGrids() {
+		return lecturerGrids;
+	}
+
+	public Map<String, TimetablePreviewPane> getStudentGrids() {
+		return studentGrids;
+	}
+
+	public Map<String, TimetablePreviewPane> getVenueGrids() {
+		return venueGrids;
+	}
 
 	private final Map<String, TimetablePreviewPane> lecturerGrids = new TreeMap<>();
 	private final Map<String, TimetablePreviewPane> studentGrids = new TreeMap<>();
@@ -253,9 +268,6 @@ public class MainController {
 		dialog.setDialogPane(pane);
 		dialog.showAndWait();
 		slotTableView.getItems().clear();
-		venueGrids.clear();
-		studentGrids.clear();
-        lecturerGrids.clear();
 		slotTableView.getItems().remove(pane.getSlot());
 		for(var item: Project.INSTANCE.getSlots()){
 			if(lecturersFilter.getValue() != null &&

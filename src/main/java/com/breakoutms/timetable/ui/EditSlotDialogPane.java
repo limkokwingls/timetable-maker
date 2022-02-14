@@ -1,5 +1,6 @@
 package com.breakoutms.timetable.ui;
 
+import com.breakoutms.timetable.MainController;
 import com.breakoutms.timetable.db.VenueDAO;
 import com.breakoutms.timetable.db.DAO;
 import com.breakoutms.timetable.model.Matrix;
@@ -129,10 +130,17 @@ public class EditSlotDialogPane extends DialogPane {
         al.setStrictPreferredTime(true);
         al.setVenue(venueFilter.getValue());
 
-        Project.INSTANCE.getSlots().remove(currentSlot());
+        removeSlot(currentSlot());
         newSlot = slotManager.allocate(al);
         Project.INSTANCE.getSlots().add(currentSlot());
         populateGrid(currentSlot().getVenueName());
+    }
+
+    private void removeSlot(Slot slot) {
+        Project.INSTANCE.getSlots().remove(currentSlot());
+        MainController.getInstance().getLecturerGrids().get(slot.getLecturerName()).delete(slot);
+        MainController.getInstance().getStudentGrids().get(slot.getStudentClassName()).delete(slot);
+        MainController.getInstance().getVenueGrids().get(slot.getVenueName()).delete(slot);
     }
 
     private void add(Node node, int col, int row) {
