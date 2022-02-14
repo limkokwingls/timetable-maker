@@ -23,7 +23,7 @@ public class VenueDAO extends DAO<Venue> {
                 new Venue("MM5", MULTIMEDIA_ROOM),
                 new Venue("MM6", MULTIMEDIA_ROOM),
                 new Venue("MM7", MULTIMEDIA_ROOM),
-                new Venue("Room 3", CLASS_ROOM),
+                new Venue("Room 1", CLASS_ROOM),
                 new Venue("Hall 6", LECTURE_HALL),
                 new Venue("Net Lab", NET_LAB),
                 new Venue("Workshop", WORK_SHOP)
