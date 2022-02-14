@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.ComboBox?>
@@ -20,7 +22,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" type="DialogPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="650.0" type="DialogPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <expandableContent>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
     </expandableContent>
@@ -65,7 +67,35 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
                <children>
-                  <ComboBox fx:id="venueFilter" prefHeight="24.0" prefWidth="211.0" />
+                  <HBox fx:id="nextVenue">
+                     <children>
+                        <JFXButton onAction="#previousVenue">
+                           <graphic>
+                              <ImageView onDragDetected="#previousVenue" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/backward_16.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                        <ComboBox fx:id="venueFilter" prefHeight="24.0" prefWidth="211.0" />
+                        <JFXButton onAction="#nextVenue">
+                           <graphic>
+                              <ImageView onDragDetected="#nextVenue" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/foward_16.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                     </children>
+                  </HBox>
                   <Pane HBox.hgrow="ALWAYS" />
                   <Button mnemonicParsing="false" onAction="#reset" text="Reset">
                      <graphic>

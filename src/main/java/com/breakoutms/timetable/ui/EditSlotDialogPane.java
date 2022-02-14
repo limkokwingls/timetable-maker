@@ -44,7 +44,7 @@ public class EditSlotDialogPane extends DialogPane {
             loader.setRoot(this);
             loader.load();
             gridPlaceholder.getChildren().addAll(grid);
-            setPrefSize(600,600);
+            setPrefSize(600,650);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
         }
@@ -52,7 +52,7 @@ public class EditSlotDialogPane extends DialogPane {
 
     @FXML
     void initialize() {
-        title.setText("Update for "+ slot.getLecturerName());
+        title.setText(slot.getLecturerName());
         venueFilter.getItems().addAll(venueDAO.facultyAll());
         classFld.setText(slot.getStudentClassName());
         courseFld.setText(slot.getCourse().getName());
@@ -148,6 +148,20 @@ public class EditSlotDialogPane extends DialogPane {
         newSlot = null;
         populateGrid(slot.getVenueName());
         venueFilter.setValue(slot.getAllocatedVenue().getVenue());
+    }
+
+    @FXML void nextVenue(ActionEvent event) {
+        int index = venueFilter.getItems().indexOf(venueFilter.getValue());
+        if(index < venueFilter.getItems().size()-1){
+            venueFilter.setValue(venueFilter.getItems().get(index+1));
+        }
+    }
+
+    @FXML void previousVenue(ActionEvent event) {
+        int index = venueFilter.getItems().indexOf(venueFilter.getValue());
+        if(index > 0){
+            venueFilter.setValue(venueFilter.getItems().get(index-1));
+        }
     }
 
     public Slot getSlot(){

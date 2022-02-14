@@ -189,42 +189,6 @@ public class MainController {
 		}
 	}
 
-	@FXML
-	void onAdd(ActionEvent event) {
-		if(!validInput()){
-			return;
-		}
-		Allocation al = new Allocation(lecturer.getValue(),
-				course.getValue(), studentClass.getValue(),
-				venueType.getValue());
-		al.setVenue(venue.getSelectionModel().getSelectedItem());
-		if(!day.getSelectionModel().getSelectedItem().equals(DEFAULT_DAY)){
-			al.setStrictPreferredTime(true);
-			int row = time.getSelectionModel().getSelectedIndex();
-			int col =  day.getSelectionModel().getSelectedIndex() - 1; //-1 for DEFAULT_DAY
-			int index = Matrix.index(row, col, Properties.totalSessions());
-			al.setTimeIndex(index);
-		}
-
-		try {
-			if(!SlotManager.contains(al)) {
-				addToLecturersFilter(lecturer.getValue());
-				boolean isStrict = venue.getValue() == null || day.getValue() == null || time.getValue() == null;
-				Slot slot = slotManager.allocate(al, isStrict);
-				currentClass = slot.getStudentClass();
-				currentCourse = slot.getCourse();
-				addSlotToPreviewPanel(slot);
-				clearInputFields();
-			}
-			else warn("Already added: "+al);
-		} catch (Exception ex) {
-			log.error(ex.getMessage(), ex);
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setContentText(ex.getMessage());
-			alert.showAndWait();
-		}
-	}
-
 	private void addToLecturersFilter(Lecturer lec) {
 		if (!lecturersFilter.getItems().contains(lec)) {
 			lecturersFilter.getItems().add(lec);
@@ -278,8 +242,12 @@ public class MainController {
 
 	@FXML
 	void editSlot(ActionEvent event){
-		EditSlotDialogPane pane = new EditSlotDialogPane(
-				slotTableView.getSelectionModel().getSelectedItem());
+		Slot slot = slotTableView.getSelectionModel().getSelectedItem();
+		openEditSlotDialog(slot);
+	}
+
+	private void openEditSlotDialog(Slot slot) {
+		EditSlotDialogPane pane = new EditSlotDialogPane(slot);
 		Dialog<Void> dialog = new Dialog<>();
 		dialog.setTitle("Edit Slot");
 		dialog.setDialogPane(pane);
@@ -288,13 +256,63 @@ public class MainController {
 		venueGrids.clear();
 		studentGrids.clear();
 		slotTableView.getItems().remove(pane.getSlot());
-		for(var slot: Project.INSTANCE.getSlots()){
+		for(var item: Project.INSTANCE.getSlots()){
 			if(lecturersFilter.getValue() != null &&
 					lecturersFilter.getValue().getName()
-							.equalsIgnoreCase(slot.getLecturerName())) {
-					addSlotToPreviewPanel(slot);
+							.equalsIgnoreCase(item.getLecturerName())) {
+				addSlotToPreviewPanel(item);
 			}
 		}
+	}
+
+	@FXML
+	void openSlotPicker(ActionEvent event){
+		if(validInput()) {
+			Slot slot = createSlot();
+			openEditSlotDialog(slot);
+		}
+	}
+
+	@FXML
+	void onAdd(ActionEvent event) {
+		if(validInput()){
+			createSlot();
+		}
+	}
+
+	private Slot createSlot(){
+		Slot slot = null;
+		Allocation al = new Allocation(lecturer.getValue(),
+				course.getValue(), studentClass.getValue(),
+				venueType.getValue());
+		al.setVenue(venue.getSelectionModel().getSelectedItem());
+		if(!day.getSelectionModel().getSelectedItem().equals(DEFAULT_DAY)){
+			al.setStrictPreferredTime(true);
+			int row = time.getSelectionModel().getSelectedIndex();
+			int col =  day.getSelectionModel().getSelectedIndex() - 1; //-1 for DEFAULT_DAY
+			int index = Matrix.index(row, col, Properties.totalSessions());
+			al.setTimeIndex(index);
+		}
+
+		try {
+			if(!SlotManager.contains(al)) {
+				addToLecturersFilter(lecturer.getValue());
+				boolean isStrict = venue.getValue() == null || day.getValue() == null || time.getValue() == null;
+				slot = slotManager.allocate(al, isStrict);
+				currentClass = slot.getStudentClass();
+				currentCourse = slot.getCourse();
+				addSlotToPreviewPanel(slot);
+				clearInputFields();
+			}
+			else warn("Already added: "+al);
+		} catch (Exception ex) {
+			log.error(ex.getMessage(), ex);
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setContentText(ex.getMessage());
+			alert.showAndWait();
+		}
+
+		return slot;
 	}
 
 	@FXML
