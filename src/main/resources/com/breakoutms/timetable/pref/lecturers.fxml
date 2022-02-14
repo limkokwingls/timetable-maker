@@ -28,9 +28,9 @@
          <children>
             <Label text="Title" />
             <TextField fx:id="title" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+            <TextField fx:id="names" onAction="#add" prefWidth="152.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#add" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#remove" text="Remove" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <TextField fx:id="names" onAction="#add" prefWidth="152.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
             <Label text="Names" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#importData" text="Import" GridPane.rowIndex="2">
                <graphic>

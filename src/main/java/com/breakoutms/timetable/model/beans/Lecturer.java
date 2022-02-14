@@ -2,6 +2,7 @@ package com.breakoutms.timetable.model.beans;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -21,12 +22,15 @@ public class Lecturer implements Serializable {
 	@Id @GeneratedValue
 	private Integer id;
 
-	String title;
+	@EqualsAndHashCode.Exclude
+	private String title;
+
 	@Column(unique = true)
 	@NotBlank
 	private String name;
 
 	public Lecturer(String title, String name){
+		this.title = title;
 		this.name = name;
 	}
 	

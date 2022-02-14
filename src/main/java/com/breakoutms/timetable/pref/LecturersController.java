@@ -46,19 +46,20 @@ public class LecturersController extends ItemsListController<Lecturer> {
 	}
 
 	protected void clear() {
+		title.setText("");
 		names.setText("");
 	}
 
 	protected Lecturer createBean() {
-    	String value = names.getText();
+    	String namesValue = names.getText();
 		String titleValue = title.getText();
-    	if(StringUtils.isBlank(value)) {
+    	if(StringUtils.isBlank(namesValue)) {
     		return null;
     	}
 		if(!StringUtils.isBlank(titleValue)) {
 			titleValue = title.getText().trim();
 		}
-		return new Lecturer(title.getText(), titleValue);
+		return new Lecturer(titleValue, namesValue);
 	}
 
 	@FXML
@@ -90,7 +91,7 @@ public class LecturersController extends ItemsListController<Lecturer> {
 					dao.save(item);
 					listView.getItems().add(item);
 				}catch (Exception e) {
-					System.err.println("Error while saving course: " + item.toString() + ", "+ e.toString());
+					System.err.println("Error while saving course: " + item.toString());
 				}
 			});
 			System.out.println("Done importing lecturers");
