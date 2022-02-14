@@ -37,6 +37,9 @@ public class EditSlotDialogPane extends DialogPane {
     private Slot newSlot;
 
     public EditSlotDialogPane(Slot slot){
+        if(slot == null){
+            throw new IllegalArgumentException("Slot cannot be null");
+        }
         this.slot = slot;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("edit_slot_dialog.fxml"));

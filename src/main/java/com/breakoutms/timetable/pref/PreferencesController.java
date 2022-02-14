@@ -41,6 +41,8 @@ public class PreferencesController extends DialogPane {
     	listView.getSelectionModel()
     		.selectedIndexProperty()
     		.addListener(this::listItemSelected);
+		contentPane.setText(items.get(0));
+		contentPane.setContent(new LecturersController().getPane());
     }
     
 	public void listItemSelected(ObservableValue<? extends Number> observable, 
