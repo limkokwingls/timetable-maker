@@ -248,7 +248,7 @@
                                  <children>
                                     <ToolBar maxWidth="1.7976931348623157E308" prefHeight="40.0">
                                       <items>
-                                          <ComboBox fx:id="lecturersFilter" prefWidth="173.0" promptText="Allocated Lecturers" />
+                                          <SearchableComboBox fx:id="lecturersFilter" maxHeight="27.0" prefHeight="25.0" prefWidth="173.0" promptText="Allocated Lecturers" />
                                         	<Pane HBox.hgrow="ALWAYS" />
                                         	<Button mnemonicParsing="false" onAction="#editSlot">
                                              <graphic>

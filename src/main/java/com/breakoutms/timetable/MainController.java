@@ -42,7 +42,7 @@ public class MainController {
 	@FXML private ComboBox<DISPLAY_TYPE> displayFor;
 	@FXML private ComboBox<Venue.VenueType> venueType;
 	@FXML private ComboBox<Venue> venue;
-	@FXML private ComboBox<Lecturer> lecturersFilter;
+	@FXML private SearchableComboBox<Lecturer> lecturersFilter;
 	@FXML private ComboBox<String> day;
 	@FXML private ComboBox<String> time;
 	@FXML private TextField searchFld;
