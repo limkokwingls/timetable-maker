@@ -255,6 +255,7 @@ public class MainController {
 		slotTableView.getItems().clear();
 		venueGrids.clear();
 		studentGrids.clear();
+        lecturerGrids.clear();
 		slotTableView.getItems().remove(pane.getSlot());
 		for(var item: Project.INSTANCE.getSlots()){
 			if(lecturersFilter.getValue() != null &&
