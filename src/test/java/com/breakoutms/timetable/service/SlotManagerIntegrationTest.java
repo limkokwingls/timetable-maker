@@ -18,7 +18,7 @@ class SlotManagerIntegrationTest {
     void creates_unique_slots(){
         List<Integer> slotIndexes = new ArrayList<>();
         for(int i = 0; i < Properties.totalTimeSlots(); i++){
-            Allocation allocation = new Allocation(new Lecturer("lecturer"),
+            Allocation allocation = new Allocation(new Lecturer("mr", "lecturer"),
                     new Course("course"),
                     new StudentClass("class"), Venue.VenueType.ANY);
             var slot = slotManager.allocate(allocation);
@@ -31,7 +31,7 @@ class SlotManagerIntegrationTest {
     void allocates_venues_using_preferred_venue_types(){
         var venueType = Venue.VenueType.CLASS_ROOM;
         for(int i = 0; i < Properties.totalTimeSlots(); i++){
-            Allocation allocation = new Allocation(new Lecturer("lecturer"),
+            Allocation allocation = new Allocation(new Lecturer("Mr","lecturer"),
                     new Course("course"),
                     new StudentClass("class"), venueType);
             var allocatedVenue = slotManager.allocate(allocation).getAllocatedVenue();

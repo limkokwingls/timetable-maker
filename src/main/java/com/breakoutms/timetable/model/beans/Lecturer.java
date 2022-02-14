@@ -21,11 +21,12 @@ public class Lecturer implements Serializable {
 	@Id @GeneratedValue
 	private Integer id;
 
+	String title;
 	@Column(unique = true)
 	@NotBlank
 	private String name;
 
-	public Lecturer(String name){
+	public Lecturer(String title, String name){
 		this.name = name;
 	}
 	
