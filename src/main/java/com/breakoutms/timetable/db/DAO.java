@@ -39,10 +39,12 @@ public class DAO<T>{
 			}
 			ex.printStackTrace();
 			log.error(ex);
+			obj = null;
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
 			log.error(ex);
+			obj = null;
 		}
 		finally{
 			session.close();
