@@ -48,7 +48,7 @@ public class EditSlotDialogPane extends DialogPane {
             loader.setRoot(this);
             loader.load();
             gridPlaceholder.getChildren().addAll(grid);
-            setPrefSize(600,650);
+            setPrefSize(720,650);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
         }
@@ -92,7 +92,7 @@ public class EditSlotDialogPane extends DialogPane {
             SlotView slotView = new VenueSlotView(item);
             if(item.getVenueName().equals(venue)){
                 if(item.equals(currentSlot())){
-                    Label label = new Label("Current");
+                    Label label = new Label(item.getCourse().toString());
                     GridPane.setFillHeight(label, true);
                     GridPane.setFillWidth(label, true);
                     StackPane pane = new StackPane(label);
