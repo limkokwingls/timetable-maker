@@ -12,6 +12,7 @@ import lombok.Getter;
 public abstract class SlotView extends BorderPane {
 	
 	public static final String BORDER_COLOR = "#bdbdbd";
+	public static final String BACKGROUND_COLOR = "#EEEEEE;";
 	
 	protected Label topLabel = new Label();
 	protected Label leftLabel = new Label();
@@ -40,7 +41,7 @@ public abstract class SlotView extends BorderPane {
 		leftLabel.setFont(font);
 		topLabel.setFont(Font.font(family, 10));
 		topLabel.setPadding(new Insets(5));
-		String style = "-fx-background-color: #b0bec5;"+
+		String style = "-fx-background-color: "+ BACKGROUND_COLOR  + "; "+
 				String.format("-fx-border-color: %s;", BORDER_COLOR);
 		setStyle(style);
 	}

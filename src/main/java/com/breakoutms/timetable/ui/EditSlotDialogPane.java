@@ -105,9 +105,9 @@ public class EditSlotDialogPane extends DialogPane {
                 pane.setStyle("-fx-background-color: #FFCCBC;");
                 add(pane, slotView.getCol()+1, slotView.getRow()+1);
             }
-            else if(item.getVenueName().equals(slot.getVenueName())){
+            else if(item.getStudentClassName().equals(slot.getStudentClassName())){
                 SlotView pane = new StudentSlotView(item);
-                pane.setStyle("-fx-background-color: #FFAB91;");
+                pane.setStyle("-fx-background-color: #FFCCBC;");
                 add(pane, slotView.getCol()+1, slotView.getRow()+1);
             }
         }
