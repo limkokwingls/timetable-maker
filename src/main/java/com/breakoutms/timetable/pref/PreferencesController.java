@@ -18,7 +18,7 @@ public class PreferencesController extends DialogPane {
     
 	private final ObservableList<String> items = FXCollections.observableArrayList(
 			"Lecturers",
-			"Causes",
+			"Courses",
 			"Classes",
 			"Venues"
 	);
