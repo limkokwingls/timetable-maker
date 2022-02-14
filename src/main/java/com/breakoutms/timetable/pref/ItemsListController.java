@@ -41,8 +41,8 @@ public abstract class ItemsListController<T> {
     	var bean = createBean();
     	if(bean == null) return;
 		if(!listView.getItems().contains(bean)) {
-			listView.getItems().add(bean);
 			dao.save(bean);
+			listView.getItems().add(bean);
 			comboBox().getItems().add(bean);
 		}
     	clear();
