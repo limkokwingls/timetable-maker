@@ -137,6 +137,7 @@ public class EditSlotDialogPane extends DialogPane {
     }
 
     private void removeSlot(Slot slot) {
+        log.info("Removing slot: {}", slot);
         Project.INSTANCE.getSlots().remove(currentSlot());
         MainController.getInstance().getLecturerGrids().get(slot.getLecturerName()).delete(slot);
         MainController.getInstance().getStudentGrids().get(slot.getStudentClassName()).delete(slot);

@@ -9,6 +9,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TimetablePreviewPane extends VBox {
 
 	private final TimetableGrid grid = new TimetableGrid();
@@ -29,15 +32,16 @@ public class TimetablePreviewPane extends VBox {
 
 	public void delete(Slot slot){
 		var children = grid.getChildren();
+		List<Node> toRemove = new ArrayList<>();
 		Node nodeToDelete = null;
 		for (var child: children) {
 			if(child instanceof SlotView slotView){
 				Slot match = slotView.getSlot();
 				if(match == slot){
-					nodeToDelete = child;
+					toRemove.add(child);
 				}
 			}
 		}
-		children.remove(nodeToDelete);
+		children.removeAll(toRemove);
 	}
 }

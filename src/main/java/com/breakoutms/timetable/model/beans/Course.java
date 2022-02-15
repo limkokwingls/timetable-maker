@@ -36,21 +36,21 @@ public class Course implements Serializable {
 		this.code = code;
 	}
 
-	public Course(String courseName) {
-		String extractedCode = null;
-		if(courseName.contains("(") && courseName.contains(")")){
-			int start = courseName.lastIndexOf("(");
-			int end = courseName.lastIndexOf(")");
-			extractedCode = courseName.substring(start+1, end);
-			if(extractedCode.matches(".*\\d.*")){
-				this.code = extractedCode.trim();
-				this.name = courseName.substring(0, start).trim();
-			}
-		}
-		if(this.code == null){
-			this.name = courseName.trim();
-		}
-	}
+//	public Course(String courseName) {
+//		String extractedCode = null;
+//		if(courseName.contains("(") && courseName.contains(")")){
+//			int start = courseName.lastIndexOf("(");
+//			int end = courseName.lastIndexOf(")");
+//			extractedCode = courseName.substring(start+1, end);
+//			if(extractedCode.matches(".*\\d.*")){
+//				this.code = extractedCode.trim();
+//				this.name = courseName.substring(0, start).trim();
+//			}
+//		}
+//		if(this.code == null){
+//			this.name = courseName.trim();
+//		}
+//	}
 
 	public String toString() {
 		if(StringUtils.isNoneBlank(code)){

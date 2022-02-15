@@ -19,7 +19,7 @@ class SlotManagerIntegrationTest {
         List<Integer> slotIndexes = new ArrayList<>();
         for(int i = 0; i < Properties.totalTimeSlots(); i++){
             Allocation allocation = new Allocation(new Lecturer("mr", "lecturer"),
-                    new Course("course"),
+                    new Course("course", "course"),
                     new StudentClass("class"), Venue.VenueType.ANY);
             var slot = slotManager.allocate(allocation);
             assertThat(slotIndexes).doesNotContain(slot.getTimeIndex());
@@ -32,7 +32,7 @@ class SlotManagerIntegrationTest {
         var venueType = Venue.VenueType.CLASS_ROOM;
         for(int i = 0; i < Properties.totalTimeSlots(); i++){
             Allocation allocation = new Allocation(new Lecturer("Mr","lecturer"),
-                    new Course("course"),
+                    new Course("course","course"),
                     new StudentClass("class"), venueType);
             var allocatedVenue = slotManager.allocate(allocation).getAllocatedVenue();
             assertThat(allocatedVenue.getVenue().getVenueType()).isEqualTo(venueType);
