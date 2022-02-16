@@ -497,4 +497,12 @@ public class MainController {
 			}
 		});
 	}
+
+	public SearchableComboBox<Lecturer> getLecturersFilter() {
+		return lecturersFilter;
+	}
+
+	public TableView<Slot> getSlotTableView(){
+		return slotTableView;
+	}
 }

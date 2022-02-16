@@ -1,12 +1,17 @@
 package com.breakoutms.timetable.ui;
 
+import com.breakoutms.timetable.MainController;
+import com.breakoutms.timetable.model.beans.Lecturer;
 import com.breakoutms.timetable.model.beans.Slot;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import lombok.Getter;
+import org.controlsfx.control.SearchableComboBox;
 
 @Getter
 public abstract class SlotView extends BorderPane {
@@ -44,6 +49,15 @@ public abstract class SlotView extends BorderPane {
 		String style = "-fx-background-color: "+ BACKGROUND_COLOR  + "; "+
 				String.format("-fx-border-color: %s;", BORDER_COLOR);
 		setStyle(style);
+		setCursor(Cursor.HAND);
+		setOnMouseClicked(e -> {
+			MainController mainController = MainController.getInstance();
+			SearchableComboBox<Lecturer> lecturersFilter = mainController.getLecturersFilter();
+			lecturersFilter.getSelectionModel().select(slot.getLecturer());
+			var allocationTable = mainController.getSlotTableView();
+			allocationTable.getSelectionModel().select(slot);
+			Platform.runLater(allocationTable::requestFocus);
+		});
 	}
 	
 	protected abstract void setProperties(Slot slot);
