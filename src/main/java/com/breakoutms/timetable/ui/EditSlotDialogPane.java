@@ -48,7 +48,7 @@ public class EditSlotDialogPane extends DialogPane {
             loader.setRoot(this);
             loader.load();
             gridPlaceholder.getChildren().addAll(grid);
-            setPrefSize(720,650);
+            setPrefSize(650,650);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
         }
