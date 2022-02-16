@@ -105,7 +105,7 @@ public class EditSlotDialogPane extends DialogPane {
                 }
             }
             else if(item.getLecturerName().equals(slot.getLecturerName())){
-                SlotView pane = new LecturerSlotView(item);
+                SlotView pane = new VenueSlotView(item);
                 pane.setStyle("-fx-background-color: #FFCCBC;");
                 add(pane, slotView.getCol()+1, slotView.getRow()+1);
             }
