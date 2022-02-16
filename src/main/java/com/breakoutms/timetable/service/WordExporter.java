@@ -30,6 +30,10 @@ public class WordExporter {
         var students = studentSlots(slots).entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+
+        mergeGroups(students);
+
         studentsTable(createDocument(), students);
 
         Map<String, List<Slot>> venues = venueSlots(slots).entrySet().stream()
@@ -37,6 +41,26 @@ public class WordExporter {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         venueTable(createDocument(), venues);
 
+    }
+
+    private static void mergeGroups(LinkedHashMap<String, List<Slot>> students) {
+        List<String> merged = new ArrayList<>();
+        students.forEach((key, value) -> {
+            var a = students.get(key+"(A)");
+            if (a != null) {
+                a.addAll(value);
+            }
+            var b = students.get(key+"(B)");
+            if (b != null) {
+                b.addAll(value);
+                merged.add(key);
+            }
+            var c = students.get(key+"(C)");
+            if (c != null) {
+                c.addAll(value);
+            }
+        });
+        students.entrySet().removeIf(entry -> merged.contains(entry.getKey()));
     }
 
     private static XWPFDocument createDocument() {
@@ -150,7 +174,7 @@ public class WordExporter {
     }
 
     private static boolean isICTClass(String name) {
-        String[] students = {"MSE", "INT", "BIT", "BSSM", "BSIT", "BSBT"};
+        String[] students = {"MSE", "INT", "BIT", "BSSM", "BSIT", "BSBT", "DMSE", "DIT", "DBIT", "BSCSM", "BSCIT", "BSBIT", "TVET"};
         for(String item : students){
             if(name != null && name.toLowerCase().contains(item.toLowerCase())){
                 return true;
@@ -178,7 +202,7 @@ public class WordExporter {
         }
 
         String[] mr = {"Brotho", "Nkhatho", "Makheka", "Monaheng", "Bhila", "Nthunya",
-                "Hlabeli", "Alfred", "Jegede", "Morutwa", "Rantai", "Liphoto", "Tlali",
+                "Hlabeli", "Takalimane", "Jegede", "Morutwa", "Rantai", "Liphoto", "Tlali",
                 "New 1", "Matjele", "Borotho", "Mokhamo", "Mofolo"};
         for(String item : mr){
             if(name != null && item.toLowerCase().contains(name.toLowerCase())){
@@ -190,7 +214,7 @@ public class WordExporter {
 
     private static boolean isICTLecturer(String name) {
         String[] lecturers = {"Macheli", "Brotho", "Nkhatho", "Moopisa", "Ranyali", "Makheka",
-        "Ebisoh", "Monaheng", "Bhila", "Nthunya", "Hlabeli", "Sekopo", "Alfred", "Jegede",
+        "Ebisoh", "Monaheng", "Bhila", "Nthunya", "Hlabeli", "Sekopo", "Takalimane", "Jegede",
         "Mokete", "Morutwa", "Molapo", "Rantai", "Ntho", "Liphoto", "Tlali", "Mathe", "Mokhachane",
         "Serutla", "New 1", "Matjele", "Borotho", "Mokhamo", "Mofolo"};
         for(String item : lecturers){

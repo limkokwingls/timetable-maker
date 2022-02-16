@@ -33,7 +33,6 @@ public class TimetablePreviewPane extends VBox {
 	public void delete(Slot slot){
 		var children = grid.getChildren();
 		List<Node> toRemove = new ArrayList<>();
-		Node nodeToDelete = null;
 		for (var child: children) {
 			if(child instanceof SlotView slotView){
 				Slot match = slotView.getSlot();
