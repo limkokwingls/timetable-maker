@@ -141,7 +141,7 @@
                      <items>
                         <VBox>
                            <children>
-                              <Label text="Untitle Project">
+                              <Label fx:id="projectTitle" text="Untitle Project">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

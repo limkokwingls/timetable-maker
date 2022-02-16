@@ -5,6 +5,7 @@ import com.breakoutms.timetable.model.beans.Project;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
@@ -80,8 +81,22 @@ public class ProjectFileManager {
     private Project readFile(File path)
             throws IOException, ClassNotFoundException {
         try (ObjectInputStream is = new ObjectInputStream(new FileInputStream(path))) {
-            return (Project) is.readObject();
+            Project project = (Project) is.readObject();
+            if(StringUtils.isBlank(project.getName())) {
+                project.setName(parseName(path.getName()));
+            }
+            return project;
         }
+    }
+
+    private String parseName(String name) {
+        String[] parts = name.replace(FILE_EX, "").split("\\.");
+        StringBuilder sb = new StringBuilder();
+        for (String part : parts) {
+            sb.append(Character.toUpperCase(part.charAt(0)));
+            sb.append(part.substring(1).toLowerCase());
+        }
+        return sb.toString();
     }
 
     private void writeToFile()

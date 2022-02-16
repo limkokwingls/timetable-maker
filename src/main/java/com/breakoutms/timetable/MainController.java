@@ -46,6 +46,7 @@ public class MainController {
 	@FXML private ComboBox<String> day;
 	@FXML private ComboBox<String> time;
 	@FXML private TextField searchFld;
+	@FXML private Label projectTitle;
 
 	private static MainController INSTANCE;
 	public static MainController getInstance() {
@@ -175,6 +176,7 @@ public class MainController {
 			lecturerGrids.clear();
 			venueGrids.clear();
 			studentGrids.clear();
+			projectTitle.setText(project.get().getName());
 			Project.INSTANCE.getSlots().clear();
 			Project.INSTANCE.getSlots().addAll(project.get().getSlots());
 			for(var slot: Project.INSTANCE.getSlots()){
