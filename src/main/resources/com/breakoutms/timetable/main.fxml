@@ -137,9 +137,9 @@
          <items>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <SplitPane dividerPositions="0.4" orientation="VERTICAL">
+                  <SplitPane dividerPositions="0.45" orientation="VERTICAL" VBox.vgrow="ALWAYS">
                      <items>
-                        <VBox>
+                        <VBox maxHeight="300.0">
                            <children>
                               <Label fx:id="projectTitle" text="Untitle Project">
                                  <font>
@@ -234,7 +234,7 @@
                               </GridPane>
                            </children>
                         </VBox>
-                        <TitledPane animated="false" collapsible="false" text="Lecturer Allocations">
+                        <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Lecturer Allocations">
                            <content>
                               <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                                  <children>
@@ -262,7 +262,7 @@
                                           </Button>
                                       </items>
                                     </ToolBar>
-                                    <ScrollPane fx:id="tableHolder" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" />
+                                    <ScrollPane fx:id="tableHolder" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                            </content>
