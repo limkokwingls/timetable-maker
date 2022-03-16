@@ -10,11 +10,11 @@ import java.util.Locale;
 public class Properties {
 
 	public static int totalSessions() {
-		return 3;
+		return 4;
 	}
 
 	public static int totalDays() {
-		return 5;
+		return 6;
 	}
 	
 	public static int totalTimeSlots() {
@@ -22,8 +22,8 @@ public class Properties {
 	}
 
 	public static String sessionLabel(int col){
-//		String[] labels = {"08:00 - 10:00", "10:00 - 12:00", "12:00 - 14:00", "14:00 - 16:00"};
-		String[] labels = {"08:30 - 11:30", "11:30 - 14:30", "14:30 - 17:30"};
+		String[] labels = {"08:00 - 10:00", "10:00 - 12:00", "12:00 - 14:00", "14:00 - 16:00"};
+		// String[] labels = {"08:30 - 11:30", "11:30 - 14:30", "14:30 - 17:30"};
 		return labels[col-1];
 	}
 
