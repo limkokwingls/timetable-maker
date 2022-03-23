@@ -2,20 +2,19 @@ package com.breakoutms.timetable.cleanup;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.List;
 
 import com.breakoutms.timetable.db.DAO;
 import com.breakoutms.timetable.model.beans.Course;
 import com.breakoutms.timetable.model.beans.Lecturer;
 import com.breakoutms.timetable.model.beans.Project;
+import com.breakoutms.timetable.model.beans.StudentClass;
 
 public class PopulateDatabase {
     
     static DAO<Course> courseDAO = new DAO<Course>(Course.class);
     static DAO<Lecturer> lecturerDAO = new DAO<Lecturer>(Lecturer.class);
+    static DAO<StudentClass> studentClassDAO = new DAO<StudentClass>(StudentClass.class);
     
     
     public static void main(String[] args) throws Exception {
@@ -33,6 +32,14 @@ public class PopulateDatabase {
             System.out.println("Saving "+ lecturer.getName());
             lecturer.setId(null);
             lecturerDAO.save(lecturer);
+        }
+
+        var studentClasses = project.getSlots().stream().map(slot -> slot.getStudentClass()).distinct().toArray(StudentClass[]::new);
+        System.out.println("\n\nSaving "+ studentClasses.length + " classes");
+        for(StudentClass stdClass: studentClasses){
+            System.out.println("Saving "+ stdClass.getName());
+            stdClass.setId(null);
+            studentClassDAO.save(stdClass);
         }
     }
 

@@ -1,5 +1,7 @@
 package com.breakoutms.timetable.service;
 
+import java.util.Objects;
+
 import com.breakoutms.timetable.db.DAO;
 import com.breakoutms.timetable.model.beans.StudentClass;
 import com.breakoutms.timetable.model.beans.StudentClassIndex;
@@ -14,7 +16,8 @@ public class StudentClassService {
 
     public StudentClass findOrCreate(StudentClass studentClass) {
         var found = dao.all()
-                .stream().filter(it -> it.equals(studentClass))
+                .stream().filter(it -> Objects.nonNull(it.getName()))
+                .filter(it -> it.getName().equals(studentClass.getName()))
                 .findFirst().orElse(null);
         if(found == null){
             found = dao.save(studentClass);
