@@ -1,10 +1,8 @@
 package com.breakoutms.timetable;
 
 import com.breakoutms.timetable.model.beans.Project;
-import com.breakoutms.timetable.service.ProjectFileManager;
 import com.breakoutms.timetable.service.WordExporter;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
