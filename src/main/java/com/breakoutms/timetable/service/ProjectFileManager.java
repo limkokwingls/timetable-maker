@@ -9,6 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.prefs.Preferences;
@@ -25,22 +30,50 @@ public class ProjectFileManager {
     public void saveFile() {
         FileChooser fileChooser = createFileChooser();
 
-        if(file == null){
+        if (file == null) {
             file = fileChooser.showSaveDialog(Main.getPrimaryStage());
         }
         if (file != null) {
             try {
                 writeToFile();
+                createBackup(file);
                 prefs.put(DEFAULT_FILE_CHOOSER_PATH, file.getParent());
             } catch (IOException e) {
                 log.error(e.getMessage(), e);
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Error: "+e.getMessage());
+                alert.setContentText("Error: " + e.getMessage());
                 alert.showAndWait();
             }
         }
 
     }
+
+    private void createBackup(File source) {
+        try {
+            String dest = source.getAbsoluteFile().getParent() + "\\backup\\";
+            Files.createDirectories(Paths.get(dest));
+            var files = new File(dest).list();
+            int number = 0;
+            String sourceName = source.getName().replace(".ttb", "");
+            System.out.println("SourceName: " + files);
+            System.out.println("files.length: " + files.length);
+            if (files.length > 0) {
+                Collections.sort(Arrays.asList(files));
+                String file = files[files.length - 1].replace(".ttb", "");
+                number = Integer.valueOf(file.charAt(file.length() - 1) + "");
+            }
+            dest = dest + sourceName + "_backup_" + (++number) + ".ttb";
+            System.out.println("Destination file: " + dest);
+            Files.copy(file.toPath(), Paths.get(dest),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Error creating backup: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
     public Optional<Project> openFile() {
         FileChooser fileChooser = createFileChooser();
 
@@ -53,7 +86,7 @@ public class ProjectFileManager {
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Error: "+e.getMessage());
+                alert.setContentText("Error: " + e.getMessage());
                 alert.showAndWait();
             }
         }
@@ -82,7 +115,7 @@ public class ProjectFileManager {
             throws IOException, ClassNotFoundException {
         try (ObjectInputStream is = new ObjectInputStream(new FileInputStream(path))) {
             Project project = (Project) is.readObject();
-            if(StringUtils.isBlank(project.getName())) {
+            if (StringUtils.isBlank(project.getName())) {
                 project.setName(parseName(path.getName()));
             }
             return project;
@@ -102,7 +135,7 @@ public class ProjectFileManager {
     private void writeToFile()
             throws IOException {
         String filePath = file.getAbsolutePath();
-        if(!filePath.endsWith(FILE_EX)) {
+        if (!filePath.endsWith(FILE_EX)) {
             file = new File(filePath + FILE_EX);
         }
         try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file))) {
