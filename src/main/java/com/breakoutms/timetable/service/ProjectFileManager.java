@@ -55,14 +55,17 @@ public class ProjectFileManager {
             var files = new File(dest).list();
             int number = 0;
             String sourceName = source.getName().replace(".ttb", "");
-            System.out.println("SourceName: " + files);
-            System.out.println("files.length: " + files.length);
+            String numberStr = "01";
             if (files.length > 0) {
                 Collections.sort(Arrays.asList(files));
                 String file = files[files.length - 1].replace(".ttb", "");
-                number = Integer.valueOf(file.charAt(file.length() - 1) + "");
+                number = Integer.valueOf(file.substring(file.length() - 2) + "");
+                if (number < 9) {
+                    numberStr = "0" + (++number);
+                } else
+                    numberStr = "" + (++number);
             }
-            dest = dest + sourceName + "_backup_" + (++number) + ".ttb";
+            dest = dest + sourceName + "_backup_" + numberStr + ".ttb";
             System.out.println("Destination file: " + dest);
             Files.copy(file.toPath(), Paths.get(dest),
                     StandardCopyOption.REPLACE_EXISTING);
