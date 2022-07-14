@@ -18,7 +18,8 @@ public class WordExporter {
     public static final int ROW_HEIGHT = 950;
     public static final String TAHOMA = "Tahoma";
 
-    private WordExporter(){}
+    private WordExporter() {
+    }
 
     public static void export(Set<Slot> slots) throws IOException {
 
@@ -30,7 +31,6 @@ public class WordExporter {
         var students = studentSlots(slots).entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
 
         mergeGroups(students);
 
@@ -46,16 +46,16 @@ public class WordExporter {
     private static void mergeGroups(LinkedHashMap<String, List<Slot>> students) {
         List<String> merged = new ArrayList<>();
         students.forEach((key, value) -> {
-            var a = students.get(key+"(A)");
+            var a = students.get(key + "(A)");
             if (a != null) {
                 a.addAll(value);
             }
-            var b = students.get(key+"(B)");
+            var b = students.get(key + "(B)");
             if (b != null) {
                 b.addAll(value);
                 merged.add(key);
             }
-            var c = students.get(key+"(C)");
+            var c = students.get(key + "(C)");
             if (c != null) {
                 c.addAll(value);
             }
@@ -66,7 +66,8 @@ public class WordExporter {
     private static XWPFDocument createDocument() {
         var document = new XWPFDocument();
         XWPFHeaderFooterPolicy headerFooterPolicy = document.getHeaderFooterPolicy();
-        if (headerFooterPolicy == null) headerFooterPolicy = document.createHeaderFooterPolicy();
+        if (headerFooterPolicy == null)
+            headerFooterPolicy = document.createHeaderFooterPolicy();
 
         // create header start
         XWPFHeader header = headerFooterPolicy.createHeader(XWPFHeaderFooterPolicy.DEFAULT);
@@ -82,7 +83,7 @@ public class WordExporter {
 
     private static Map<String, List<Slot>> lecturerSlots(Set<Slot> slots) {
         Map<String, List<Slot>> map = new HashMap<>();
-        for (Slot item: slots){
+        for (Slot item : slots) {
             List<Slot> list = map.computeIfAbsent(item.getLecturerName(), k -> new ArrayList<>());
             list.add(item);
         }
@@ -91,7 +92,7 @@ public class WordExporter {
 
     private static Map<String, List<Slot>> venueSlots(Set<Slot> slots) {
         Map<String, List<Slot>> map = new HashMap<>();
-        for (Slot item: slots){
+        for (Slot item : slots) {
             List<Slot> list = map.computeIfAbsent(item.getVenueName(), k -> new ArrayList<>());
             list.add(item);
         }
@@ -100,24 +101,24 @@ public class WordExporter {
 
     private static Map<String, List<Slot>> studentSlots(Set<Slot> slots) {
         Map<String, List<Slot>> map = new HashMap<>();
-        for (Slot item: slots){
+        for (Slot item : slots) {
             List<Slot> list = map.computeIfAbsent(item.getStudentClassName(), k -> new ArrayList<>());
             list.add(item);
         }
         return map;
     }
 
-    private static void lecturersTable(XWPFDocument document, Map<String, List<Slot>>map) throws IOException {
+    private static void lecturersTable(XWPFDocument document, Map<String, List<Slot>> map) throws IOException {
         FileOutputStream out = new FileOutputStream(
-                ProjectFileManager.projectFilePath().getPath()+"/lecturers.docx");
+                ProjectFileManager.projectFilePath().getPath() + "/lecturers.docx");
         for (var entry : map.entrySet()) {
-            if(!isICTLecturer(entry.getKey())){
+            if (!isICTLecturer(entry.getKey())) {
                 continue;
             }
             addTitle(document, entry.getKey());
             XWPFTable table = document.createTable();
             addLabels(table);
-            for (var slot: entry.getValue()) {
+            for (var slot : entry.getValue()) {
                 var row = table.getRow(slot.row() + 1);
                 var cell = row.getCell(slot.col() + 1);
                 writeToCell(cell, slot.getCourse().getName(),
@@ -129,17 +130,17 @@ public class WordExporter {
         out.close();
     }
 
-    private static void studentsTable(XWPFDocument document, Map<String, List<Slot>>map) throws IOException {
+    private static void studentsTable(XWPFDocument document, Map<String, List<Slot>> map) throws IOException {
         FileOutputStream out = new FileOutputStream(
-                ProjectFileManager.projectFilePath().getPath()+"/students.docx");
+                ProjectFileManager.projectFilePath().getPath() + "/students.docx");
         for (var entry : map.entrySet()) {
-            if(!isICTClass(entry.getKey())){
+            if (!isICTClass(entry.getKey())) {
                 continue;
             }
             addTitle(document, entry.getKey());
             XWPFTable table = document.createTable();
             addLabels(table);
-            for (var slot: entry.getValue()) {
+            for (var slot : entry.getValue()) {
                 var row = table.getRow(slot.row() + 1);
                 var cell = row.getCell(slot.col() + 1);
                 writeToCell(cell, slot.getCourse().getName(),
@@ -151,17 +152,17 @@ public class WordExporter {
         out.close();
     }
 
-    private static void venueTable(XWPFDocument document, Map<String, List<Slot>>map) throws IOException {
+    private static void venueTable(XWPFDocument document, Map<String, List<Slot>> map) throws IOException {
         FileOutputStream out = new FileOutputStream(
-                ProjectFileManager.projectFilePath().getPath()+"/venues.docx");
+                ProjectFileManager.projectFilePath().getPath() + "/venues.docx");
         for (var entry : map.entrySet()) {
-            if(!isICTVenue(entry.getKey())){
+            if (!isICTVenue(entry.getKey())) {
                 continue;
             }
             addTitle(document, entry.getKey());
             XWPFTable table = document.createTable();
             addLabels(table);
-            for (var slot: entry.getValue()) {
+            for (var slot : entry.getValue()) {
                 var row = table.getRow(slot.row() + 1);
                 var cell = row.getCell(slot.col() + 1);
                 writeToCell(cell, slot.getCourse().getName(),
@@ -174,13 +175,14 @@ public class WordExporter {
     }
 
     private static boolean isICTClass(String name) {
-        String[] students = {"MSE", "INT", "BIT", "BSSM", "BSIT", "BSBT", "DMSE", "DIT", "DBIT", "BSCSM", "BSCIT", "BSBIT", "TVET"};
-        for(String item : students){
-            if(name != null && name.toLowerCase().contains(item.toLowerCase())){
-                return true;
-            }
-        }
-        return false;
+        // String[] students = {"MSE", "INT", "BIT", "BSSM", "BSIT", "BSBT", "DMSE",
+        // "DIT", "DBIT", "BSCSM", "BSCIT", "BSBIT", "TVET"};
+        // for(String item : students){
+        // if(name != null && name.toLowerCase().contains(item.toLowerCase())){
+        // return true;
+        // }
+        // }
+        return true;
     }
 
     private static boolean isICTVenue(String name) {
@@ -192,33 +194,33 @@ public class WordExporter {
     }
 
     private static String respectable(String name) {
-        String[] ms = {"Macheli", "Moopisa", "Ranyali",
+        String[] ms = { "Macheli", "Moopisa", "Ranyali",
                 "Ebisoh", "Sekopo", "Mokete", "Molapo", "Ntho", "Mathe", "Mokhachane",
-                "Serutla",};
-        for(String item : ms){
-            if(name != null && item.toLowerCase().contains(name.toLowerCase())){
-                return "Ms. "+name;
+                "Serutla", };
+        for (String item : ms) {
+            if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
+                return "Ms. " + name;
             }
         }
 
-        String[] mr = {"Brotho", "Nkhatho", "Makheka", "Monaheng", "Bhila", "Nthunya",
+        String[] mr = { "Brotho", "Nkhatho", "Makheka", "Monaheng", "Bhila", "Nthunya",
                 "Hlabeli", "Takalimane", "Jegede", "Morutwa", "Rantai", "Liphoto", "Tlali",
-                "New 1", "Matjele", "Borotho", "Mokhamo", "Mofolo"};
-        for(String item : mr){
-            if(name != null && item.toLowerCase().contains(name.toLowerCase())){
-                return "Mr. "+name;
+                "New 1", "Matjele", "Borotho", "Mokhamo", "Mofolo" };
+        for (String item : mr) {
+            if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
+                return "Mr. " + name;
             }
         }
         return name;
     }
 
     private static boolean isICTLecturer(String name) {
-        String[] lecturers = {"Macheli", "Brotho", "Nkhatho", "Moopisa", "Ranyali", "Makheka",
-        "Ebisoh", "Monaheng", "Bhila", "Nthunya", "Hlabeli", "Sekopo", "Takalimane", "Jegede",
-        "Mokete", "Morutwa", "Molapo", "Rantai", "Ntho", "Liphoto", "Tlali", "Mathe", "Mokhachane",
-        "Serutla", "New 1", "Matjele", "Borotho", "Mokhamo", "Mofolo"};
-        for(String item : lecturers){
-            if(name != null && item.toLowerCase().contains(name.toLowerCase())){
+        String[] lecturers = { "Macheli", "Brotho", "Nkhatho", "Moopisa", "Ranyali", "Makheka",
+                "Ebisoh", "Monaheng", "Bhila", "Nthunya", "Hlabeli", "Sekopo", "Takalimane", "Jegede",
+                "Mokete", "Morutwa", "Molapo", "Rantai", "Ntho", "Liphoto", "Tlali", "Mathe", "Mokhachane",
+                "Serutla", "New 1", "Matjele", "Borotho", "Mokhamo", "Mofolo" };
+        for (String item : lecturers) {
+            if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
                 return true;
             }
         }
@@ -226,7 +228,7 @@ public class WordExporter {
     }
 
     private static void writeToCell(XWPFTableCell cell, String topText,
-                                    String leftText, String rightText, String seperator) {
+            String leftText, String rightText, String seperator) {
         cell.setColor("F6F6F6");
         var topPara = cell.getParagraphs().get(0);
         topPara.setAlignment(ParagraphAlignment.CENTER);
@@ -261,16 +263,13 @@ public class WordExporter {
     }
 
     private static String spelling(String name) {
-        if(name.contains("Entrepreneuship")){
+        if (name.contains("Entrepreneuship")) {
             return name.replace("Entrepreneuship", "Entrepreneurship");
-        }
-        else if(name.contains("Mathemetics")){
-            return name.replace("Mathemetics","Mathematics");
-        }
-        else if(name.contains("Descrete")){
-            return name.replace("Descrete","Discrete");
-        }
-        else if(name.contains("Artifitial")){
+        } else if (name.contains("Mathemetics")) {
+            return name.replace("Mathemetics", "Mathematics");
+        } else if (name.contains("Descrete")) {
+            return name.replace("Descrete", "Discrete");
+        } else if (name.contains("Artifitial")) {
             return name.replace("Artifitial", "Artificial");
         }
         return name;
@@ -306,8 +305,8 @@ public class WordExporter {
     }
 
     private static String underscore(String name) {
-        if(name != null){
-            if(name.contains(" (") && name.contains(")")){
+        if (name != null) {
+            if (name.contains(" (") && name.contains(")")) {
                 name = name.replace(" (", "_");
                 name = name.replace(")", "");
             }

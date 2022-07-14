@@ -29,18 +29,22 @@ public class Venue implements Serializable {
 		NET_LAB,
 		WORK_SHOP,
 		PHOTO_LAB,
-		MAC_LAB
+		MAC_LAB,
+		OTHER
 	}
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private int id;
 
 	@Column(unique = true)
 	@NotBlank
 	private String name;
 
-	/* TODO: VanueType should be converted to a class so that a vanue
-	types can be provided by the user */
+	/*
+	 * TODO: VanueType should be converted to a class so that a vanue
+	 * types can be provided by the user
+	 */
 	private VenueType venueType;
 
 	public Venue(String name, VenueType venueType) {
