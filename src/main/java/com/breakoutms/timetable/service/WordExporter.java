@@ -175,14 +175,14 @@ public class WordExporter {
     }
 
     private static boolean isICTClass(String name) {
-        // String[] students = {"MSE", "INT", "BIT", "BSSM", "BSIT", "BSBT", "DMSE",
-        // "DIT", "DBIT", "BSCSM", "BSCIT", "BSBIT", "TVET"};
-        // for(String item : students){
-        // if(name != null && name.toLowerCase().contains(item.toLowerCase())){
-        // return true;
-        // }
-        // }
-        return true;
+        String[] students = { "MSE", "INT", "BIT", "BSSM", "BSIT", "BSBT", "DMSE",
+                "DIT", "DBIT", "BSCSM", "BSCIT", "BSBIT", "TVET", "CBIT" };
+        for (String item : students) {
+            if (name != null && name.toLowerCase().contains(item.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isICTVenue(String name) {
@@ -205,7 +205,7 @@ public class WordExporter {
 
         String[] mr = { "Brotho", "Nkhatho", "Makheka", "Monaheng", "Bhila", "Nthunya",
                 "Hlabeli", "Takalimane", "Jegede", "Morutwa", "Rantai", "Liphoto", "Tlali",
-                "New 1", "Matjele", "Borotho", "Mokhamo", "Mofolo" };
+                "New", "Matjele", "Borotho", "Mokhamo", "Mofolo" };
         for (String item : mr) {
             if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
                 return "Mr. " + name;
@@ -215,10 +215,10 @@ public class WordExporter {
     }
 
     private static boolean isICTLecturer(String name) {
-        String[] lecturers = { "Macheli", "Brotho", "Nkhatho", "Moopisa", "Ranyali", "Makheka",
+        String[] lecturers = { "Mahlakeng", "Brotho", "Nkhatho", "Moopisa", "Ranyali", "Makheka",
                 "Ebisoh", "Monaheng", "Bhila", "Nthunya", "Hlabeli", "Sekopo", "Takalimane", "Jegede",
                 "Mokete", "Morutwa", "Molapo", "Rantai", "Ntho", "Liphoto", "Tlali", "Mathe", "Mokhachane",
-                "Serutla", "New 1", "Matjele", "Borotho", "Mokhamo", "Mofolo" };
+                "Serutla", "New", "Matjele", "Borotho", "Mokhamo", "Mofolo", "Mpotla", "New 1", "New 2", "New 3" };
         for (String item : lecturers) {
             if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
                 return true;
