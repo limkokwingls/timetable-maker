@@ -49,6 +49,10 @@ public class VenueDAO extends DAO<Venue> {
         list.add(new Venue("Workshop", WORK_SHOP));
         list.add(new Venue("Sound Studio", OTHER));
         list.add(new Venue("TV Studio", OTHER));
+        list.add(new Venue("MM9", OTHER));
+        list.add(new Venue("MM10", OTHER));
+        list.add(new Venue("MP Campus", OTHER));
+        list.add(new Venue("?", OTHER));
 
         return list;
     }
