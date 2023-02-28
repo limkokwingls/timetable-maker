@@ -17,7 +17,7 @@ import static com.breakoutms.timetable.model.beans.Venue.VenueType.*;
 
 @Log4j2
 public class SlotManager {
-	
+
 	private static final Set<Slot> slots = Project.INSTANCE.getSlots();
 	private static final int RETRIES = 1500;
 
@@ -35,15 +35,15 @@ public class SlotManager {
 		System.out.println("strictMode = " + strictMode);
 		Slot slot = createSlot(al, strictMode);
 		slots.add(slot);
-		log.info("SlotGenerator.allocate(): "+ slot);
+		log.info("SlotGenerator.allocate(): " + slot);
 		return slot;
 	}
 
 	public static boolean contains(Allocation al) {
-		for(Slot slot: slots){
-			if(slot.getCourse().equals(al.getCourse())
-				&& slot.getLecturer().equals(al.getLecturer())
-				&& slot.getStudentClass().equals(al.getStudentClass())){
+		for (Slot slot : slots) {
+			if (slot.getCourse().equals(al.getCourse())
+					&& slot.getLecturer().equals(al.getLecturer())
+					&& slot.getStudentClass().equals(al.getStudentClass())) {
 				return true;
 			}
 		}
@@ -58,23 +58,22 @@ public class SlotManager {
 		AllocatedVenue allocatedVenue = attemptMatchingIndexes(al, lecturer, strict);
 		for (int i = 0; i < RETRIES; i++) {
 			Venue venue = allocatedVenue.getVenue();
-			if(venue != null && al.getVenueType() == Venue.VenueType.ANY){
+			if (venue != null && al.getVenueType() == Venue.VenueType.ANY) {
 				break;
 			}
-			if(!al.isStrictPreferredTime() &&
-					(venue == null || (venue.getVenueType() != al.getVenueType()))){
+			if (!al.isStrictPreferredTime() &&
+					(venue == null || (venue.getVenueType() != al.getVenueType()))) {
 				allocatedVenue = attemptMatchingIndexes(al, lecturer, strict);
 			}
 		}
 
 		Venue venue = allocatedVenue.getVenue();
-		if((venue == null ||
-				(al.getVenueType() != ANY && venue.getVenueType() != al.getVenueType()))){
-			if(ignoreLecurerConflict){
+		if ((venue == null || venue.getName() == null ||
+				(al.getVenueType() != ANY && venue.getVenueType() != al.getVenueType()))) {
+			if (ignoreLecurerConflict) {
 				allocatedVenue.setTimeIndex(al.getTimeIndex());
 				allocatedVenue.setVenue(al.getVenue());
-			}
-			else {
+			} else {
 				throw new IllegalArgumentException("Unable to find a vacant slot for the selected venue or venue type");
 			}
 		}
@@ -90,21 +89,21 @@ public class SlotManager {
 		int studentsTime = studentsTimeIndex(al.getStudentClass(), lectureTime, strict);
 
 		for (int i = 0; i < RETRIES; i++) {
-			if(lectureTime == studentsTime) {
+			if (lectureTime == studentsTime) {
 				break;
 			}
 			lectureTime = lecturerTimeIndex(lecturer, al.getTimeIndex(), strict);
 		}
-		if(lectureTime != studentsTime) {
+		if (lectureTime != studentsTime) {
 			throw new IllegalStateException("Unable to find slot matching both student and lecturer");
 		}
 
 		AllocatedVenue allocatedVenue = new AllocatedVenue();
 		Venue venue;
-		if(al.getVenue() != null){
+		if (al.getVenue() != null) {
 			venue = vacantVenue(al.getVenue(), lectureTime);
-		}
-		else venue = randomVenue(al.getVenueType(), lectureTime);
+		} else
+			venue = randomVenue(al.getVenueType(), lectureTime);
 		allocatedVenue.setVenue(venue);
 		allocatedVenue.setTimeIndex(lectureTime);
 		return allocatedVenue;
@@ -117,19 +116,19 @@ public class SlotManager {
 				.filter(it -> it.getTimeIndex() == timeIndex)
 				.map(AllocatedVenue::getVenue)
 				.findFirst();
-		if(filter.isEmpty()){
+		if (filter.isEmpty()) {
 			return venue;
-		}
-		else return null;
+		} else
+			return null;
 	}
 
 	private Venue randomVenue(Venue.VenueType venueType, Integer preferredTime) {
 		Venue venue = randomVenue(preferredTime);
-		if(venueType == null || venueType == Venue.VenueType.ANY) {
+		if (venueType == null || venueType == Venue.VenueType.ANY) {
 			return venue;
 		}
 		for (int i = 0; i < RETRIES; i++) {
-			if(venue != null
+			if (venue != null
 					&& venue.getVenueType() == venueType) {
 				return venue;
 			}
@@ -157,7 +156,7 @@ public class SlotManager {
 
 	private Integer lecturerTimeIndex(LecturerIndex lecturer, Integer preferredTime, boolean strict) {
 		Set<Integer> exclude = occupied(lecturer);
-		if(!strict && exclude.contains(preferredTime)){
+		if (!strict && exclude.contains(preferredTime)) {
 			var okayText = "Continue";
 			ButtonType okay = new ButtonType(okayText, ButtonBar.ButtonData.CANCEL_CLOSE);
 			ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.OK_DONE);
@@ -165,7 +164,7 @@ public class SlotManager {
 					"Lecturer is already occupied at selected time, do you want to continue",
 					okay, cancel);
 			var res = alert.showAndWait();
-			if(res.isPresent() && res.get().getText().equals(okayText)){
+			if (res.isPresent() && res.get().getText().equals(okayText)) {
 				ignoreLecurerConflict = true;
 				return preferredTime;
 			}
@@ -195,12 +194,12 @@ public class SlotManager {
 	}
 
 	private Integer randomTimeIndex(Set<Integer> exclude, Integer preferredTime) {
-		if(preferredTime != null && !exclude.contains(preferredTime)) {
+		if (preferredTime != null && !exclude.contains(preferredTime)) {
 			return preferredTime;
 		}
 		int timeIndex = -1;
 		for (int i = 0; i < RETRIES; i++) {
-			if(timeIndex >= 0 && !exclude.contains(timeIndex)) {
+			if (timeIndex >= 0 && !exclude.contains(timeIndex)) {
 				return timeIndex;
 			}
 			timeIndex = random(0, Properties.totalTimeSlots());

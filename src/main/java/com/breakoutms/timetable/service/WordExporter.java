@@ -205,7 +205,7 @@ public class WordExporter {
 
         String[] mr = { "Brotho", "Nkhatho", "Makheka", "Monaheng", "Bhila", "Nthunya",
                 "Hlabeli", "Takalimane", "Jegede", "Morutwa", "Rantai", "Liphoto", "Tlali",
-                "New", "Matjele", "Borotho", "Mokhamo", "Mofolo" };
+                "New", "Matjele", "Borotho", "Mokhamo", "Mofolo", "Mpotla", "Maseli", "Makhaola" };
         for (String item : mr) {
             if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
                 return "Mr. " + name;
@@ -215,10 +215,11 @@ public class WordExporter {
     }
 
     private static boolean isICTLecturer(String name) {
-        String[] lecturers = { "Mahlakeng", "Brotho", "Nkhatho", "Moopisa", "Ranyali", "Makheka",
+        String[] lecturers = { "Macheli", "Mahlakeng", "Brotho", "Nkhatho", "Moopisa", "Ranyali", "Makheka",
                 "Ebisoh", "Monaheng", "Bhila", "Nthunya", "Hlabeli", "Sekopo", "Takalimane", "Jegede",
                 "Mokete", "Morutwa", "Molapo", "Rantai", "Ntho", "Liphoto", "Tlali", "Mathe", "Mokhachane",
-                "Serutla", "New", "Matjele", "Borotho", "Mokhamo", "Mofolo", "Mpotla", "New 1", "New 2", "New 3" };
+                "Serutla", "New", "Matjele", "Borotho", "Mokhamo", "Mofolo", "Mpotla", "Maseli", "Makhaola", "New 1",
+                "New 2", "New 3" };
         for (String item : lecturers) {
             if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
                 return true;

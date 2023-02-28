@@ -19,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
+import java.util.List;
 
 @Log4j2
 public class EditSlotDialogPane extends DialogPane {
@@ -64,6 +65,11 @@ public class EditSlotDialogPane extends DialogPane {
         title.setText(slot.getLecturerName());
         var venues = venueDAO.facultyAll();
         venues.add(new Venue("Staging Area", VenueType.ANY));
+        venues.addAll(List.of(
+                new Venue("Room 4", VenueType.CLASS_ROOM),
+                new Venue("Room 5", VenueType.CLASS_ROOM),
+                new Venue("Room 6", VenueType.CLASS_ROOM),
+                new Venue("Hall 2", VenueType.LECTURE_HALL)));
         venueFilter.getItems().addAll(venues);
         classFld.setText(slot.getStudentClassName());
         courseFld.setText(slot.getCourse().getName());
