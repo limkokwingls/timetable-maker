@@ -275,6 +275,12 @@
                <children>
                   <HBox>
                      <children>
+                        <Button prefHeight="30.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onBack" text="Back">
+                            <HBox.margin>
+                                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                            </HBox.margin>
+                        </Button>
+
                         <ComboBox fx:id="displayFor" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="Select" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />

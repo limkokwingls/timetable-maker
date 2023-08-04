@@ -162,10 +162,29 @@ public class MainController {
 		studentClass.getItems().addAll(studentClassesDao.all());
 	}
 
+	private Stack<String> searchHistory = new Stack<>();
+
 	public static void searchFor(String searchKey){
 		var instance = getInstance();
-		instance.searchFld.setText(searchKey);
+		instance.addToSearch(searchKey);
 		instance.renderPreviewPanel();
+	}
+
+	private void addToSearch(String searchKey){
+		searchFld.setText(searchKey);
+		searchHistory.add(searchKey);
+	}
+
+	@FXML
+	void onBack(ActionEvent event) {
+		if(!searchHistory.isEmpty()){
+			var last = searchHistory.lastElement();
+			if(last.equals(searchFld.getText())){
+				searchHistory.pop();
+			}
+			searchFld.setText(searchHistory.pop());
+			renderPreviewPanel();
+		}
 	}
 	@FXML
 	void preferences(ActionEvent event) {
@@ -358,31 +377,31 @@ public class MainController {
 	void onPreview(ActionEvent event){
 		Node node = (Node) event.getSource();
 		if(node.getId().equals("lecturerPreview")){
-			searchFld.setText(lecturer.getValue().getName());
+			addToSearch(lecturer.getValue().getName());
 		}
 		else if(node.getId().equals("classPreview")){
-			searchFld.setText(studentClass.getValue().getName());
+			addToSearch(studentClass.getValue().getName());
 		}
 		else if(node.getId().equals("venuePreview")){
 			if(venue.getValue() == null){
 				if(venueType.getValue() == Venue.VenueType.MULTIMEDIA_ROOM){
-					searchFld.setText("MM");
+					addToSearch("MM");
 				}
 				else if(venueType.getValue() == Venue.VenueType.CLASS_ROOM){
-					searchFld.setText("Room 1");
+					addToSearch("Room 1");
 				}
 				else if(venueType.getValue() == Venue.VenueType.LECTURE_HALL){
-					searchFld.setText("Hall 6");
+					addToSearch("Hall 6");
 				}
 				else if(venueType.getValue() == Venue.VenueType.NET_LAB){
-					searchFld.setText("Net");
+					addToSearch("Net");
 				}
 				else if(venueType.getValue() == Venue.VenueType.WORK_SHOP){
-					searchFld.setText("Work");
+					addToSearch("Work");
 				}
 			}
 			else {
-				searchFld.setText(venue.getValue().getName());
+				addToSearch(venue.getValue().getName());
 			}
 		}
 		renderPreviewPanel();
