@@ -58,6 +58,21 @@ public abstract class SlotView extends BorderPane {
 			allocationTable.getSelectionModel().select(slot);
 			Platform.runLater(allocationTable::requestFocus);
 		});
+
+		setupLookup(leftLabel);
+		setupLookup(rightLabel);
+	}
+
+	private void setupLookup(Label label){
+		label.setOnMouseClicked(e -> {
+			MainController.searchFor(label.getText());
+		});
+		label.setOnMouseEntered(e -> {
+			label.setUnderline(true);
+		});
+		label.setOnMouseExited(e -> {
+			label.setUnderline(false);
+		});
 	}
 	
 	protected abstract void setProperties(Slot slot);

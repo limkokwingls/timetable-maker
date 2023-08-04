@@ -162,6 +162,11 @@ public class MainController {
 		studentClass.getItems().addAll(studentClassesDao.all());
 	}
 
+	public static void searchFor(String searchKey){
+		var instance = getInstance();
+		instance.searchFld.setText(searchKey);
+		instance.renderPreviewPanel();
+	}
 	@FXML
 	void preferences(ActionEvent event) {
 		Dialog<Void> dialog = new Dialog<>();
