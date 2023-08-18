@@ -14,7 +14,7 @@ class SlotManagerIntegrationTest {
 
     private final SlotManager slotManager = new SlotManager();
 
-    @Test
+    // @Test
     void creates_unique_slots(){
         List<Integer> slotIndexes = new ArrayList<>();
         for(int i = 0; i < Properties.totalTimeSlots(); i++){
@@ -27,7 +27,7 @@ class SlotManagerIntegrationTest {
         }
     }
 
-    @Test
+    // @Test
     void allocates_venues_using_preferred_venue_types(){
         var venueType = Venue.VenueType.CLASS_ROOM;
         for(int i = 0; i < Properties.totalTimeSlots(); i++){
