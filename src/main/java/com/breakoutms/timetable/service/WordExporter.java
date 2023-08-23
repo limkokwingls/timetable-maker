@@ -219,7 +219,7 @@ public class WordExporter {
                 "Ebisoh", "Monaheng", "Bhila", "Nthunya", "Hlabeli", "Sekopo", "Takalimane", "Jegede",
                 "Mokete", "Morutwa", "Molapo", "Rantai", "Ntho", "Liphoto", "Tlali", "Mathe", "Mokhachane",
                 "Serutla", "New", "Matjele", "Borotho", "Mokhamo", "Mofolo", "Mpotla", "Maseli", "Makhaola", "New 1",
-                "New 2", "New 3" };
+                "New 2", "New 3", "TUTOR" };
         for (String item : lecturers) {
             if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
                 return true;
