@@ -43,10 +43,12 @@ public class VenueDAO extends DAO<Venue> {
         for (int i = 1; i <= 12; i++) {
             list.add(new Venue("Hall " + i, LECTURE_HALL));
         }
+
         list.add(new Venue("Photo Lab", PHOTO_LAB));
         list.add(new Venue("Mac Lab", MAC_LAB));
         list.add(new Venue("Net Lab", NET_LAB));
         list.add(new Venue("Workshop", WORK_SHOP));
+        list.add(new Venue("No Venue", OTHER));
         list.add(new Venue("Sound Studio", OTHER));
         list.add(new Venue("TV Studio", OTHER));
         list.add(new Venue("MM9", OTHER));
