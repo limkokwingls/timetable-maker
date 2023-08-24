@@ -49,7 +49,9 @@ public class Slot implements Serializable {
 	//  */
 	// @Deprecated 
 	public void setTimeIndex(int value){
-		lecturerIndex.setTimeIndex(value);;
+		lecturerIndex.setTimeIndex(value);
+		studentClassIndex.setTimeIndex(value);
+		allocatedVenue.setTimeIndex(value);
 	}
 
 	public String getStudentClassName(){
