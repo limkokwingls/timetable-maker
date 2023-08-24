@@ -42,6 +42,16 @@ public class Slot implements Serializable {
 		return lecturerIndex.row();
 	}
 
+	// /**
+	//  * @deprecated
+	//  * This method should be called with extreem caution it was never inteded to be created
+	//  * @param value
+	//  */
+	// @Deprecated 
+	public void setTimeIndex(int value){
+		lecturerIndex.setTimeIndex(value);;
+	}
+
 	public String getStudentClassName(){
 		return studentClassIndex.getName();
 	}

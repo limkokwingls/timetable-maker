@@ -21,4 +21,13 @@ public class IndexedItem implements Serializable {
 	public int col() {
 		return Matrix.column(timeIndex, row(), Properties.totalSessions());
 	}
+
+	/**
+	 * This method should be called with extreem caution it was never inteded to be created
+	 * @param value
+	 */
+	@Deprecated 
+	public void setTimeIndex(int value){
+		timeIndex = value;
+	}
 }
