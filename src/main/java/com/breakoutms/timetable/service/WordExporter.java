@@ -196,7 +196,7 @@ public class WordExporter {
     private static String respectable(String name) {
         String[] ms = { "Macheli", "Moopisa", "Ranyali",
                 "Ebisoh", "Sekopo", "Mokete", "Molapo", "Ntho", "Mathe", "Mokhachane",
-                "Serutla", };
+                "Serutla"};
         for (String item : ms) {
             if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
                 return "Ms. " + name;
@@ -205,7 +205,7 @@ public class WordExporter {
 
         String[] mr = { "Brotho", "Nkhatho", "Makheka", "Monaheng", "Bhila", "Nthunya",
                 "Hlabeli", "Takalimane", "Jegede", "Morutwa", "Rantai", "Liphoto", "Tlali",
-                "New", "Matjele", "Borotho", "Mokhamo", "Mofolo", "Mpotla", "Maseli", "Makhaola" };
+                "New", "Matjele", "Borotho", "Mokhamo", "Mofolo", "Mpotla", "Maseli", "Makhaola", "Thokoana" };
         for (String item : mr) {
             if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
                 return "Mr. " + name;
@@ -219,7 +219,7 @@ public class WordExporter {
                 "Ebisoh", "Monaheng", "Bhila", "Nthunya", "Hlabeli", "Sekopo", "Takalimane", "Jegede",
                 "Mokete", "Morutwa", "Molapo", "Rantai", "Ntho", "Liphoto", "Tlali", "Mathe", "Mokhachane",
                 "Serutla", "New", "Matjele", "Borotho", "Mokhamo", "Mofolo", "Mpotla", "Maseli", "Makhaola", "New 1",
-                "New 2", "New 3", "TUTOR" };
+                "New 2", "New 3", "TUTOR", "Thokoana" };
         for (String item : lecturers) {
             if (name != null && item.toLowerCase().contains(name.toLowerCase())) {
                 return true;
