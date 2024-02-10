@@ -35,12 +35,40 @@ public class WordExporter {
         mergeGroups(students);
 
         studentsTable(createDocument(), students);
+        writeStudentsToJson(students);
 
         Map<String, List<Slot>> venues = venueSlots(slots).entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         venueTable(createDocument(), venues);
 
+    }
+
+    private static void writeStudentsToJson(LinkedHashMap<String, List<Slot>> students) {
+        var json = new StringBuilder();
+        json.append("{\n");
+        students.forEach((key, value) -> {
+            json.append("\t\"").append(key).append("\": [\n");
+            for (var slot : value) {
+                json.append("\t\t{\n");
+                json.append("\t\t\t\"course\": \"").append(slot.getCourse().getName()).append("\",\n");
+                json.append("\t\t\t\"lecturer\": \"").append(slot.getLecturerName()).append("\",\n");
+                json.append("\t\t\t\"venue\": \"").append(slot.getVenueName()).append("\",\n");
+                json.append("\t\t\t\"time\": \"").append(slot.getTime()).append("\",\n");
+                json.append("\t\t\t\"timeIndex\": \"").append(slot.getTimeIndex()).append("\"\n");
+                json.append("\t\t},\n");
+            }
+            json.append("\t],\n");
+        });
+        json.append("}");
+        try {
+            var file = ProjectFileManager.projectFilePath().getPath() + "/students.json";
+            var out = new FileOutputStream(file);
+            out.write(json.toString().getBytes());
+            out.close();
+        } catch (IOException e) {
+            log.error("Error writing students to json", e);
+        }
     }
 
     private static void mergeGroups(LinkedHashMap<String, List<Slot>> students) {
