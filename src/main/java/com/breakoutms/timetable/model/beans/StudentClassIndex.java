@@ -16,7 +16,7 @@ public class StudentClassIndex extends IndexedItem {
     private StudentClass studentClass;
 
     public String getName() {
-        return studentClass != null? studentClass.getName() : "Null studentClass";
+        return studentClass != null? studentClass.getName().replace("S1", "S2") : "Null studentClass";
     }
 
     @Override

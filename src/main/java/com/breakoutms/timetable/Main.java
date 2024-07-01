@@ -16,8 +16,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main.fxml"));
-		Scene scene = new Scene(fxmlLoader.load(), 990, 800);
+		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/breakoutms/timetable/main.fxml"));		Scene scene = new Scene(fxmlLoader.load(), 990, 800);
 		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		stage.setScene(scene);
 		maximizedWindow(stage);
